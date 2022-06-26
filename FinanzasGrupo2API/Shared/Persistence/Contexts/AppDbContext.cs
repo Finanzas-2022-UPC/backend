@@ -3,6 +3,7 @@ using FinanzasGrupo2API.Projects.Domain.Models;
 using FinanzasGrupo2API.Shared.Extensions;
 using Microsoft.EntityFrameworkCore;
 using FinanzasGrupo2API.Bonos.Domain.Models;
+using FinanzasGrupo2API.DataFrancess.Domain.Models;
 
 namespace FinanzasGrupo2API.Shared.Persistence.Contexts
 {
@@ -11,6 +12,7 @@ namespace FinanzasGrupo2API.Shared.Persistence.Contexts
         public DbSet<User> Users { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Bono> Bonos { get; set; }
+        public DbSet<DataFrances> DataFrances { get; set; }
         
         public AppDbContext(DbContextOptions options) : base(options)
         {
@@ -56,6 +58,23 @@ namespace FinanzasGrupo2API.Shared.Persistence.Contexts
             builder.Entity<Bono>().Property(b => b.Moneda).HasMaxLength(50).IsRequired();
             builder.Entity<Bono>().HasOne(b => b.Project).WithOne(u => u.Bono).IsRequired().HasForeignKey<Project>(p => p.Id);
 
+            //DataFrances
+            builder.Entity<DataFrances>().ToTable("DataFrances");
+            builder.Entity<DataFrances>().HasKey(dF => dF.Id);
+            builder.Entity<DataFrances>().Property(dF => dF.Id).IsRequired().ValueGeneratedOnAdd();
+            builder.Entity<DataFrances>().Property(dF => dF.ValorTerreno).IsRequired();
+            builder.Entity<DataFrances>().Property(dF => dF.CuotaInicialP);
+            builder.Entity<DataFrances>().Property(dF => dF.CuotaInicial);
+            builder.Entity<DataFrances>().Property(dF => dF.TEA);
+            builder.Entity<DataFrances>().Property(dF => dF.Metodo).HasMaxLength(50).IsRequired();
+            builder.Entity<DataFrances>().Property(dF => dF.PlazoAnhos);
+            builder.Entity<DataFrances>().Property(dF => dF.PlazoSemestre);
+            builder.Entity<DataFrances>().Property(dF => dF.PlazoGracia);
+            builder.Entity<DataFrances>().Property(dF => dF.Capital);
+            builder.Entity<DataFrances>().Property(dF => dF.TeSemestral);
+            builder.Entity<DataFrances>().Property(dF => dF.CreditoCapitalizado);
+            builder.Entity<DataFrances>().Property(dF => dF.NuevaCuota);
+            builder.Entity<DataFrances>().HasOne(dF => dF.Project).WithOne(u => u.DataFrances).IsRequired().HasForeignKey<Project>(p => p.Id);
 
             builder.UseSnakeCaseNamingConvention();
 

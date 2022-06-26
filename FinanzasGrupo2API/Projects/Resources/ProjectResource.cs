@@ -1,4 +1,7 @@
-﻿namespace FinanzasGrupo2API.Projects.Resources
+﻿using FinanzasGrupo2API.Bonos.Domain.Models;
+using FinanzasGrupo2API.DataFrancess.Domain.Models;
+
+namespace FinanzasGrupo2API.Projects.Resources
 {
     public class ProjectResource
     {
@@ -11,5 +14,8 @@
              
         //Relationships
         public int UserId { get; set; }
+        public Bono Bono { get; set; }
+        public DataFrances DataFrances { get; set; }
+
     }
 }

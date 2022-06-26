@@ -1,4 +1,5 @@
 ﻿using FinanzasGrupo2API.Bonos.Domain.Models;
+using FinanzasGrupo2API.DataFrancess.Domain.Models;
 using FinanzasGrupo2API.Security.Domain.Models;
 using System.Text.Json.Serialization;
 
@@ -19,6 +20,7 @@ namespace FinanzasGrupo2API.Projects.Domain.Models
 
         public Bono Bono { get; set; }
 
+        public DataFrances DataFrances { get; set; }
              
          }
 }
