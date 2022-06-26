@@ -4,6 +4,8 @@ using FinanzasGrupo2API.Shared.Extensions;
 using Microsoft.EntityFrameworkCore;
 using FinanzasGrupo2API.Bonos.Domain.Models;
 using FinanzasGrupo2API.DataFrancess.Domain.Models;
+using FinanzasGrupo2API.Movimientos.Domain.Models;
+using FinanzasGrupo2API.Cruds.Domain.Models;
 
 namespace FinanzasGrupo2API.Shared.Persistence.Contexts
 {
@@ -13,7 +15,9 @@ namespace FinanzasGrupo2API.Shared.Persistence.Contexts
         public DbSet<Project> Projects { get; set; }
         public DbSet<Bono> Bonos { get; set; }
         public DbSet<DataFrances> DataFrances { get; set; }
-        
+        public DbSet<Crud> Cruds { get; set; }
+        public DbSet<Movimiento> Movimientos { get; set; }
+        public DbSet<TipoMovimiento> TipoMovimientos { get; set; }
         public AppDbContext(DbContextOptions options) : base(options)
         {
         }
@@ -26,15 +30,15 @@ namespace FinanzasGrupo2API.Shared.Persistence.Contexts
             builder.Entity<User>().ToTable("Users");
             builder.Entity<User>().HasKey(u => u.Id);
             builder.Entity<User>().Property(u => u.Id).IsRequired().ValueGeneratedOnAdd();
-            builder.Entity<User>().Property(u => u.FirstName).IsRequired().HasMaxLength(30);
-            builder.Entity<User>().Property(u => u.LastName).IsRequired().HasMaxLength(30);
+            builder.Entity<User>().Property(u => u.FirstName).IsRequired().HasMaxLength(50);
+            builder.Entity<User>().Property(u => u.LastName).IsRequired().HasMaxLength(50);
             builder.Entity<User>().Property(u => u.Email).IsRequired().HasMaxLength(50);
 
             //Projects
             builder.Entity<Project>().ToTable("Projects");
             builder.Entity<Project>().HasKey(p => p.Id);
             builder.Entity<Project>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
-            builder.Entity<Project>().Property(p => p.Name).IsRequired().HasMaxLength(30);
+            builder.Entity<Project>().Property(p => p.Name).IsRequired().HasMaxLength(50);
             builder.Entity<Project>().Property(p => p.UrlToImage);
             builder.Entity<Project>().HasOne(p => p.User).WithMany(u => u.Projects).IsRequired();
 
@@ -75,6 +79,31 @@ namespace FinanzasGrupo2API.Shared.Persistence.Contexts
             builder.Entity<DataFrances>().Property(dF => dF.CreditoCapitalizado);
             builder.Entity<DataFrances>().Property(dF => dF.NuevaCuota);
             builder.Entity<DataFrances>().HasOne(dF => dF.Project).WithOne(u => u.DataFrances).IsRequired().HasForeignKey<Project>(p => p.Id);
+
+            //Cruds
+            builder.Entity<Crud>().ToTable("Cruds");
+            builder.Entity<Crud>().HasKey(c => c.Id);
+            builder.Entity<Crud>().Property(c => c.Id).IsRequired().ValueGeneratedOnAdd();
+            builder.Entity<Crud>().Property(c => c.Nombre).IsRequired().HasMaxLength(50);
+            builder.Entity<Crud>().Property(c => c.Tipo).IsRequired().HasMaxLength(50);
+            builder.Entity<Crud>().HasOne(c => c.Project).WithMany(p => p.Cruds).IsRequired();
+
+            //Movimientos
+            builder.Entity<Movimiento>().ToTable("Movimientos");
+            builder.Entity<Movimiento>().HasKey(m => m.Id);
+            builder.Entity<Movimiento>().Property(m => m.Id).IsRequired().ValueGeneratedOnAdd();
+            builder.Entity<Movimiento>().Property(m => m.Nombre).IsRequired().HasMaxLength(50);
+            builder.Entity<Movimiento>().Property(m => m.Monto).IsRequired().HasMaxLength(50);
+            builder.Entity<Movimiento>().Property(m => m.Incremento);
+            builder.Entity<Movimiento>().Property(m => m.MesAplicable).IsRequired().HasMaxLength(50);
+            builder.Entity<Movimiento>().HasOne(m => m.TipoMovimiento);
+            builder.Entity<Movimiento>().HasOne(m => m.Crud).WithMany(c => c.Movimientos).IsRequired();
+
+            //TipoMovimientos
+            builder.Entity<TipoMovimiento>().ToTable("TipoMovimientos");
+            builder.Entity<TipoMovimiento>().HasKey(c => c.Id);
+            builder.Entity<TipoMovimiento>().Property(c => c.Id).IsRequired().ValueGeneratedOnAdd();
+            builder.Entity<TipoMovimiento>().Property(c => c.Tipo).IsRequired().HasMaxLength(50);
 
             builder.UseSnakeCaseNamingConvention();
 
