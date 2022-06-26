@@ -4,6 +4,7 @@ using FinanzasGrupo2API.Projects.Domain.Repositories;
 using FinanzasGrupo2API.Projects.Domain.Services;
 using FinanzasGrupo2API.Projects.Domain.Services.Communication;
 using FinanzasGrupo2API.Projects.Resources;
+using FinanzasGrupo2API.Security.Domain.Repositories;
 using IUnitOfWork = FinanzasGrupo2API.Shared.Domain.Repositories.IUnitOfWork;
 
 namespace FinanzasGrupo2API.Projects.Services
@@ -11,19 +12,25 @@ namespace FinanzasGrupo2API.Projects.Services
     public class ProjectService : IProjectService
     {
         private readonly IProjectRepository _projectRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public ProjectService(IProjectRepository projectRepository, IUnitOfWork unitOfWork, IMapper mapper)
+        public ProjectService(IProjectRepository projectRepository, IUserRepository userRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _projectRepository = projectRepository;
+            _userRepository = userRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<Project>> ListAsync()
+        public async Task<IEnumerable<Project>> ListAsync(int ?userId)
         {
-            return await _projectRepository.ListAsync();
+            var projects = await _projectRepository.ListAsync();
+
+            if (userId.HasValue)
+                return projects.Where(p => p.User.Id == userId).ToArray();
+            return projects.ToArray();
         }
        
         public async Task<Project> GetById(int id)
@@ -35,13 +42,15 @@ namespace FinanzasGrupo2API.Projects.Services
         {
             var project = _mapper.Map<SaveProjectResource, Project>(projectResource);
 
+            var existingUser = await _userRepository.FindByIdAsync(projectResource.UserId);
+            if (existingUser == null)
+                return new ProjectResponse("User Not Found");
+            project.User = existingUser;
+
             try
             {
 
                 await _projectRepository.AddAsync(project);
-                await _unitOfWork.CompleteAsync();
-
-                _projectRepository.Update(project);
                 await _unitOfWork.CompleteAsync();
 
                 return new ProjectResponse(project);

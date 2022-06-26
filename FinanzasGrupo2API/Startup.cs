@@ -8,6 +8,18 @@ using FinanzasGrupo2API.Bonos.Domain.Repositories;
 using FinanzasGrupo2API.Bonos.Domain.Services;
 using FinanzasGrupo2API.Bonos.Persistence.Repositories;
 using FinanzasGrupo2API.Bonos.Services;
+using FinanzasGrupo2API.Cruds.Domain.Repositories;
+using FinanzasGrupo2API.Cruds.Domain.Services;
+using FinanzasGrupo2API.Cruds.Persistence.Repositories;
+using FinanzasGrupo2API.Cruds.Services;
+using FinanzasGrupo2API.DataFrancess.Domain.Repositories;
+using FinanzasGrupo2API.DataFrancess.Domain.Services;
+using FinanzasGrupo2API.DataFrancess.Persistence.Repositories;
+using FinanzasGrupo2API.DataFrancess.Services;
+using FinanzasGrupo2API.Movimientos.Domain.Repositories;
+using FinanzasGrupo2API.Movimientos.Domain.Services;
+using FinanzasGrupo2API.Movimientos.Persistence.Repositories;
+using FinanzasGrupo2API.Movimientos.Services;
 using FinanzasGrupo2API.Projects.Domain.Repositories;
 using FinanzasGrupo2API.Projects.Domain.Services;
 using FinanzasGrupo2API.Projects.Persistence.Repositories;
@@ -22,6 +34,7 @@ using FinanzasGrupo2API.Security.Persistence.Repositories;
 using FinanzasGrupo2API.Security.Services;
 using FinanzasGrupo2API.Shared.Persistence.Contexts;
 using FinanzasGrupo2API.Shared.Persistence.Repositories;
+using FinanzasGrupo2API.TipoMovimientos.Persistence.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -74,6 +87,18 @@ namespace FinanzasGrupo2API
 
             services.AddScoped<IBonoRepository, BonoRepository>();
             services.AddScoped<IBonoService, BonoService>();
+
+            services.AddScoped<IDataFrancesRepository, DataFrancesRepository>();
+            services.AddScoped<IDataFrancesService, DataFrancesService>();
+
+            services.AddScoped<ICrudRepository, CrudRepository>();
+            services.AddScoped<ICrudService, CrudService>();
+
+            services.AddScoped<IMovimientoRepository, MovimientoRepository>();
+            services.AddScoped<IMovimientoService, MovimientoService>();
+
+            services.AddScoped<ITipoMovimientoRepository, TipoMovimientoRepository>();
+            services.AddScoped<ITipoMovimientoService, TipoMovimientoService>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 

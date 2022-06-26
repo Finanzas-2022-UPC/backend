@@ -17,7 +17,7 @@ namespace FinanzasGrupo2API.DataFrancess.Domain.Models
         public int PlazoGracia { get; set; }
         public float Capital { get; set; }
         public float TeSemestral { get; set; }
-        public int CreditoCapitalizado { get; set; }
+        public float CreditoCapitalizado { get; set; }
         public float NuevaCuota { get; set; }
 
         //Relationships

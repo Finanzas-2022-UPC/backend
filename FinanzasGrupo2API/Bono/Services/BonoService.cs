@@ -4,6 +4,7 @@ using FinanzasGrupo2API.Bonos.Domain.Repositories;
 using FinanzasGrupo2API.Bonos.Domain.Services;
 using FinanzasGrupo2API.Bonos.Domain.Services.Communication;
 using FinanzasGrupo2API.Bonos.Resources;
+using FinanzasGrupo2API.Projects.Domain.Repositories;
 using FinanzasGrupo2API.Security.Exceptions;
 using IUnitOfWork = FinanzasGrupo2API.Shared.Domain.Repositories.IUnitOfWork;
 
@@ -12,12 +13,14 @@ namespace FinanzasGrupo2API.Bonos.Services
     public class BonoService : IBonoService
     {
         private readonly IBonoRepository _bonoRepository;
+        private readonly IProjectRepository _projectRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public BonoService(IBonoRepository bonoRepository, IUnitOfWork unitOfWork, IMapper mapper)
+        public BonoService(IBonoRepository bonoRepository, IProjectRepository projectRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _bonoRepository = bonoRepository;
+            _projectRepository = projectRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
@@ -36,13 +39,15 @@ namespace FinanzasGrupo2API.Bonos.Services
         {
             var bono = _mapper.Map<SaveBonoResource, Bono>(bonoResource);
 
+            var existingProject = await _projectRepository.FindByIdAsync(bonoResource.ProjectId);
+            if (existingProject == null)
+                return new BonoResponse("Project Not Found");
+            bono.Project = existingProject;
+
             try
             {
 
                 await _bonoRepository.AddAsync(bono);
-                await _unitOfWork.CompleteAsync();
-
-                _bonoRepository.Update(bono);
                 await _unitOfWork.CompleteAsync();
 
                 return new BonoResponse(bono);
