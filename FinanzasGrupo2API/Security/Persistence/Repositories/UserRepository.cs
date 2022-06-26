@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FinanzasGrupo2API.Security.Domain.Models;
+﻿using FinanzasGrupo2API.Security.Domain.Models;
 using FinanzasGrupo2API.Security.Domain.Repositories;
 using FinanzasGrupo2API.Shared.Persistence.Contexts;
 using FinanzasGrupo2API.Shared.Persistence.Repositories;

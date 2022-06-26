@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using AutoMapper;
+using FinanzasGrupo2API.Projects.Domain.Repositories;
+using FinanzasGrupo2API.Projects.Domain.Services;
+using FinanzasGrupo2API.Projects.Persistence.Repositories;
+using FinanzasGrupo2API.Projects.Services;
 using FinanzasGrupo2API.Security.Authorization.Handlers.Implementations;
 using FinanzasGrupo2API.Security.Authorization.Handlers.Interfaces;
 using FinanzasGrupo2API.Security.Authorization.Middleware;
@@ -46,7 +50,6 @@ namespace FinanzasGrupo2API
 
             services.AddDbContext<AppDbContext>(options =>
             {
-                //options.UseInMemoryDatabase("supermarket-api-in-memory");
                 options.UseMySQL(Configuration.GetConnectionString("Default"));
             });
 
@@ -61,6 +64,9 @@ namespace FinanzasGrupo2API
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
+
+            services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddScoped<IProjectService, ProjectService>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 

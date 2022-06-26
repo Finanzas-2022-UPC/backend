@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using FinanzasGrupo2API.Projects.Domain.Models;
+using System.Text.Json.Serialization;
 
 namespace FinanzasGrupo2API.Security.Domain.Models
 {
@@ -12,6 +13,8 @@ namespace FinanzasGrupo2API.Security.Domain.Models
       
       [JsonIgnore]
       public string PasswordHash { get; set; }
+
+      public IList<Project> Projects { get; set; }
    
     }
 }
