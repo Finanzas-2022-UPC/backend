@@ -57,7 +57,7 @@ namespace FinanzasGrupo2API.Projects.Services
             var existingProject = await _projectRepository.FindByIdAsync(id);
             if (existingProject == null)
                 return new ProjectResponse("Project Not Found");
-            existingProject.Name = project.Name;
+            existingProject = project;
 
             try
             {

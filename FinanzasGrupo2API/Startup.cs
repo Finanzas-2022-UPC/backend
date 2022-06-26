@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using AutoMapper;
+using FinanzasGrupo2API.Bonos.Domain.Repositories;
+using FinanzasGrupo2API.Bonos.Domain.Services;
+using FinanzasGrupo2API.Bonos.Persistence.Repositories;
+using FinanzasGrupo2API.Bonos.Services;
 using FinanzasGrupo2API.Projects.Domain.Repositories;
 using FinanzasGrupo2API.Projects.Domain.Services;
 using FinanzasGrupo2API.Projects.Persistence.Repositories;
@@ -67,6 +71,9 @@ namespace FinanzasGrupo2API
 
             services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<IProjectService, ProjectService>();
+
+            services.AddScoped<IBonoRepository, BonoRepository>();
+            services.AddScoped<IBonoService, BonoService>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 

@@ -1,4 +1,6 @@
-﻿using FinanzasGrupo2API.Security.Domain.Models;
+﻿using FinanzasGrupo2API.Bonos.Domain.Models;
+using FinanzasGrupo2API.Security.Domain.Models;
+using System.Text.Json.Serialization;
 
 namespace FinanzasGrupo2API.Projects.Domain.Models
 {
@@ -12,7 +14,10 @@ namespace FinanzasGrupo2API.Projects.Domain.Models
 
         //Relationships
 
+        [JsonIgnore]
         public User User { get; set; }
+
+        public Bono Bono { get; set; }
 
              
          }
