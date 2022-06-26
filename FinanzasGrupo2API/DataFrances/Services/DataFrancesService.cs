@@ -4,6 +4,7 @@ using FinanzasGrupo2API.DataFrancess.Domain.Repositories;
 using FinanzasGrupo2API.DataFrancess.Domain.Services;
 using FinanzasGrupo2API.DataFrancess.Domain.Services.Communication;
 using FinanzasGrupo2API.DataFrancess.Resources;
+using FinanzasGrupo2API.Projects.Domain.Repositories;
 using FinanzasGrupo2API.Security.Exceptions;
 using IUnitOfWork = FinanzasGrupo2API.Shared.Domain.Repositories.IUnitOfWork;
 
@@ -12,12 +13,14 @@ namespace FinanzasGrupo2API.DataFrancess.Services
     public class DataFrancesService : IDataFrancesService
     {
         private readonly IDataFrancesRepository _dataFrancesRepository;
+        private readonly IProjectRepository _projectRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public DataFrancesService(IDataFrancesRepository dataFrancesRepository, IUnitOfWork unitOfWork, IMapper mapper)
+        public DataFrancesService(IDataFrancesRepository dataFrancesRepository, IProjectRepository projectRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _dataFrancesRepository = dataFrancesRepository;
+            _projectRepository = projectRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
@@ -36,13 +39,15 @@ namespace FinanzasGrupo2API.DataFrancess.Services
         {
             var dataFrances = _mapper.Map<SaveDataFrancesResource, DataFrances>(dataFrancesResource);
 
+            var existingProject = await _projectRepository.FindByIdAsync(dataFrancesResource.ProjectId);
+            if (existingProject == null)
+                return new DataFrancesResponse("Project Not Found");
+            dataFrances.Project = existingProject;
+
             try
             {
 
                 await _dataFrancesRepository.AddAsync(dataFrances);
-                await _unitOfWork.CompleteAsync();
-
-                _dataFrancesRepository.Update(dataFrances);
                 await _unitOfWork.CompleteAsync();
 
                 return new DataFrancesResponse(dataFrances);

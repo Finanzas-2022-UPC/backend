@@ -21,9 +21,9 @@ namespace FinanzasGrupo2API.Cruds.Controllers
         }
         
         [HttpGet]
-        public async Task<IEnumerable<CrudResource>> GetAllAsync([FromQuery] int ?crudType)
+        public async Task<IEnumerable<CrudResource>> GetAllAsync([FromQuery] string ?crud, [FromQuery] int ?projectId)
         {
-            var cruds = await _crudService.ListAsync();
+            var cruds = await _crudService.ListAsync(crud, projectId);
             var resources = _mapper.Map<IEnumerable<Crud>, IEnumerable<CrudResource>>(cruds);
             return resources;
         }

@@ -8,7 +8,7 @@ namespace FinanzasGrupo2API.Cruds.Domain.Services
 {
     public interface ICrudService
     {
-        Task<IEnumerable<Crud>> ListAsync();
+        Task<IEnumerable<Crud>> ListAsync(string ?type, int ?projectId);
         
         Task<Crud> GetById(int id);
 

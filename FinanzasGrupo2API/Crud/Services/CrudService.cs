@@ -4,6 +4,7 @@ using FinanzasGrupo2API.Cruds.Domain.Repositories;
 using FinanzasGrupo2API.Cruds.Domain.Services;
 using FinanzasGrupo2API.Cruds.Domain.Services.Communication;
 using FinanzasGrupo2API.Cruds.Resources;
+using FinanzasGrupo2API.Projects.Domain.Repositories;
 using FinanzasGrupo2API.Security.Exceptions;
 using IUnitOfWork = FinanzasGrupo2API.Shared.Domain.Repositories.IUnitOfWork;
 
@@ -12,19 +13,30 @@ namespace FinanzasGrupo2API.Cruds.Services
     public class CrudService : ICrudService
     {
         private readonly ICrudRepository _crudRepository;
+        private readonly IProjectRepository _projectRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public CrudService(ICrudRepository crudRepository, IUnitOfWork unitOfWork, IMapper mapper)
+        public CrudService(ICrudRepository crudRepository, IProjectRepository projectRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _crudRepository = crudRepository;
+            _projectRepository = projectRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<Crud>> ListAsync()
+        public async Task<IEnumerable<Crud>> ListAsync(string? type, int? projectId)
         {
-            return await _crudRepository.ListAsync();
+            var cruds = await _crudRepository.ListAsync();
+
+            if ((type == null || type.Equals("")) && !projectId.HasValue)
+                return cruds.Where(m => m.Tipo == type).ToArray();
+            else if ((type == null || type.Equals("")) && projectId.HasValue)
+                return cruds.Where(m => m.Project.Id == projectId.Value).ToArray();
+            else if ((type == null || type.Equals("")) && projectId.HasValue)
+                return cruds.Where(m => m.Project.Id == projectId.Value && m.Tipo == type).ToArray();
+
+            return cruds.ToArray();
         }
 
         public async Task<Crud> GetById(int id)
@@ -36,13 +48,15 @@ namespace FinanzasGrupo2API.Cruds.Services
         {
             var crud = _mapper.Map<SaveCrudResource, Crud>(crudResource);
 
+            var existingProject = await _projectRepository.FindByIdAsync(crudResource.ProjectId);
+            if (existingProject == null)
+                return new CrudResponse("Project Not Found");
+            crud.Project = existingProject;
+
             try
             {
 
                 await _crudRepository.AddAsync(crud);
-                await _unitOfWork.CompleteAsync();
-
-                _crudRepository.Update(crud);
                 await _unitOfWork.CompleteAsync();
 
                 return new CrudResponse(crud);

@@ -41,6 +41,8 @@ namespace FinanzasGrupo2API.Shared.Persistence.Contexts
             builder.Entity<Project>().Property(p => p.Name).IsRequired().HasMaxLength(50);
             builder.Entity<Project>().Property(p => p.UrlToImage);
             builder.Entity<Project>().HasOne(p => p.User).WithMany(u => u.Projects).IsRequired();
+            builder.Entity<Project>().HasOne(p => p.Bono).WithOne(b => b.Project).IsRequired().HasForeignKey<Bono>(b => b.Id);
+            builder.Entity<Project>().HasOne(p => p.DataFrances).WithOne(dF => dF.Project).IsRequired().HasForeignKey<DataFrances>(dF => dF.Id);
 
             //Bonos
             builder.Entity<Bono>().ToTable("Bonos");
@@ -60,7 +62,7 @@ namespace FinanzasGrupo2API.Shared.Persistence.Contexts
             builder.Entity<Bono>().Property(b => b.GastosAdicionales).IsRequired();
             builder.Entity<Bono>().Property(b => b.ImpuestoRenta).IsRequired();
             builder.Entity<Bono>().Property(b => b.Moneda).HasMaxLength(50).IsRequired();
-            builder.Entity<Bono>().HasOne(b => b.Project).WithOne(u => u.Bono).IsRequired().HasForeignKey<Project>(p => p.Id);
+            
 
             //DataFrances
             builder.Entity<DataFrances>().ToTable("DataFrances");
@@ -78,7 +80,7 @@ namespace FinanzasGrupo2API.Shared.Persistence.Contexts
             builder.Entity<DataFrances>().Property(dF => dF.TeSemestral);
             builder.Entity<DataFrances>().Property(dF => dF.CreditoCapitalizado);
             builder.Entity<DataFrances>().Property(dF => dF.NuevaCuota);
-            builder.Entity<DataFrances>().HasOne(dF => dF.Project).WithOne(u => u.DataFrances).IsRequired().HasForeignKey<Project>(p => p.Id);
+            
 
             //Cruds
             builder.Entity<Crud>().ToTable("Cruds");

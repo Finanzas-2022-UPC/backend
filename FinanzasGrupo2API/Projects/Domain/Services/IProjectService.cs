@@ -8,7 +8,7 @@ namespace FinanzasGrupo2API.Projects.Domain.Services
 {
     public interface IProjectService
     {
-        Task<IEnumerable<Project>> ListAsync();
+        Task<IEnumerable<Project>> ListAsync(int ? userId);
         
         Task<Project> GetById(int id);
 

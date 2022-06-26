@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FinanzasGrupo2API.Cruds.Domain.Repositories;
 using FinanzasGrupo2API.Movimientos.Domain.Models;
 using FinanzasGrupo2API.Movimientos.Domain.Repositories;
 using FinanzasGrupo2API.Movimientos.Domain.Services;
@@ -12,19 +13,30 @@ namespace FinanzasGrupo2API.Movimientos.Services
     public class MovimientoService : IMovimientoService
     {
         private readonly IMovimientoRepository _movimientoRepository;
+        private readonly ICrudRepository _crudRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public MovimientoService(IMovimientoRepository movimientoRepository, IUnitOfWork unitOfWork, IMapper mapper)
+        public MovimientoService(IMovimientoRepository movimientoRepository, ICrudRepository crudRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _movimientoRepository = movimientoRepository;
+            _crudRepository = crudRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<Movimiento>> ListAsync()
+        public async Task<IEnumerable<Movimiento>> ListAsync(int ?crudId, int ?tipoMovimiento)
         {
-            return await _movimientoRepository.ListAsync();
+            var movimientos = await _movimientoRepository.ListAsync();
+
+            if (crudId.HasValue && !tipoMovimiento.HasValue)
+                return movimientos.Where(m => m.Crud.Id == crudId).ToArray();
+            else if (!crudId.HasValue && tipoMovimiento.HasValue)
+                return movimientos.Where(m => m.TipoMovimiento.Id == tipoMovimiento).ToArray();
+            else if (crudId.HasValue && tipoMovimiento.HasValue)
+                return movimientos.Where(m => m.TipoMovimiento.Id == tipoMovimiento && m.Crud.Id == crudId).ToArray();
+
+            return movimientos.ToArray();
         }
 
         public async Task<Movimiento> GetById(int id)
@@ -36,13 +48,15 @@ namespace FinanzasGrupo2API.Movimientos.Services
         {
             var movimiento = _mapper.Map<SaveMovimientoResource, Movimiento>(movimientoResource);
 
+            var existingCrud = await _crudRepository.FindByIdAsync(movimientoResource.CrudId);
+            if (existingCrud == null)
+                return new MovimientoResponse("Crud Not Found");
+            movimiento.Crud = existingCrud;
+
             try
             {
 
                 await _movimientoRepository.AddAsync(movimiento);
-                await _unitOfWork.CompleteAsync();
-
-                _movimientoRepository.Update(movimiento);
                 await _unitOfWork.CompleteAsync();
 
                 return new MovimientoResponse(movimiento);

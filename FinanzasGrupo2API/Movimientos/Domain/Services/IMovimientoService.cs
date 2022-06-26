@@ -8,7 +8,7 @@ namespace FinanzasGrupo2API.Movimientos.Domain.Services
 {
     public interface IMovimientoService
     {
-        Task<IEnumerable<Movimiento>> ListAsync();
+        Task<IEnumerable<Movimiento>> ListAsync(int ?crudId, int ?tipoMovimiento);
         
         Task<Movimiento> GetById(int id);
 

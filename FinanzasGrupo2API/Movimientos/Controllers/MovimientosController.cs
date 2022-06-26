@@ -21,9 +21,9 @@ namespace FinanzasGrupo2API.Movimientos.Controllers
         }
         
         [HttpGet]
-        public async Task<IEnumerable<MovimientoResource>> GetAllAsync([FromQuery] int ?movimientoType)
+        public async Task<IEnumerable<MovimientoResource>> GetAllAsync([FromQuery] int ?crud, [FromQuery] int? tipoMovimiento)
         {
-            var movimientos = await _movimientoService.ListAsync();
+            var movimientos = await _movimientoService.ListAsync(crud, tipoMovimiento);
             var resources = _mapper.Map<IEnumerable<Movimiento>, IEnumerable<MovimientoResource>>(movimientos);
             return resources;
         }

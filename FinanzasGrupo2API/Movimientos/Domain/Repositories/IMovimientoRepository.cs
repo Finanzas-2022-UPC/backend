@@ -7,7 +7,7 @@ namespace FinanzasGrupo2API.Movimientos.Domain.Repositories
     public interface IMovimientoRepository
     {
         Task<IEnumerable<Movimiento>> ListAsync();
-        
+
         Task AddAsync(Movimiento movimiento);
 
         Task<Movimiento> FindByIdAsync(int id);
