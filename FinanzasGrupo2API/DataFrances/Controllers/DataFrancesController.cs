@@ -9,12 +9,12 @@ namespace FinanzasGrupo2API.DatasFrances.Controllers
 {
     [ApiController]
     [Route("/api/v1/[controller]")]
-    public class DataFrancessController : ControllerBase
+    public class DataFrancesController : ControllerBase
     {
         private readonly IDataFrancesService _dataFrancesService;
         private readonly IMapper _mapper;
 
-        public DataFrancessController(IDataFrancesService dataFrancesService, IMapper mapper)
+        public DataFrancesController(IDataFrancesService dataFrancesService, IMapper mapper)
         {
             _dataFrancesService = dataFrancesService;
             _mapper = mapper;
