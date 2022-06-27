@@ -4,11 +4,11 @@ using FinanzasGrupo2API.Projects.Resources;
 
 namespace FinanzasGrupo2API.Projects.Mapping
 {
-    public class ModelToResourceProject : Profile
+    public class ModelToResourceProyecto : Profile
     {
-        public ModelToResourceProject()
+        public ModelToResourceProyecto()
         {
-            CreateMap<Project, ProjectResource>();
+            CreateMap<Proyecto, ProyectoResource>();
         }
         
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using FinanzasGrupo2API.Shared.Extensions;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -46,6 +47,14 @@ namespace FinanzasGrupo2API
             {
                 operation.Tags[i].Name = operation.Tags[i].Name.ToSnakeCase();
             }
+        }
+    }
+
+    public class SnakeCaseParameterFilter : IParameterFilter
+    {
+        public void Apply(OpenApiParameter parameter, ParameterFilterContext context)
+        {
+            parameter.Name = parameter.Name.ToSnakeCase();
         }
     }
 }

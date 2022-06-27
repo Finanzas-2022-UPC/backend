@@ -12,8 +12,8 @@ namespace FinanzasGrupo2API.Shared.Extensions
             {
                 entity.SetTableName(StringExtensions.ToSnakeCase(entity.GetTableName()));
 
-                //foreach (var property in entity.GetProperties())
-                //    property.SetColumnName(StringExtensions.ToSnakeCase(property.GetColumnName()));
+                foreach (var property in entity.GetProperties())
+                    property.SetColumnName(StringExtensions.ToSnakeCase(property.GetColumnBaseName()));
 
                 foreach (var key in entity.GetKeys()) key.SetName(StringExtensions.ToSnakeCase(key.GetName()));
 

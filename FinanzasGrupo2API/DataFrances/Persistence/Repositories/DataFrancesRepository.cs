@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using FinanzasGrupo2API.DataFrancess.Domain.Models;
-using FinanzasGrupo2API.DataFrancess.Domain.Repositories;
+using FinanzasGrupo2API.DatasFrances.Domain.Models;
+using FinanzasGrupo2API.DatasFrances.Domain.Repositories;
 using FinanzasGrupo2API.Shared.Persistence.Contexts;
 using FinanzasGrupo2API.Shared.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace FinanzasGrupo2API.DataFrancess.Persistence.Repositories
+namespace FinanzasGrupo2API.DatasFrances.Persistence.Repositories
 {
     public class DataFrancesRepository : BaseRepository, IDataFrancesRepository
     {
@@ -17,7 +17,7 @@ namespace FinanzasGrupo2API.DataFrancess.Persistence.Repositories
 
         public async Task<IEnumerable<DataFrances>> ListAsync()
         {
-            return await _context.DataFrances.Include(b=>b.Project).ToListAsync();
+            return await _context.DataFrances.Include(b=>b.project).ToListAsync();
         }
        
         public async Task AddAsync(DataFrances dataFrances)
@@ -27,7 +27,7 @@ namespace FinanzasGrupo2API.DataFrancess.Persistence.Repositories
 
         public async Task<DataFrances> FindByIdAsync(int id)
         {
-            return await _context.DataFrances.Include(b=>b.Project).FirstOrDefaultAsync(p=>p.Id==id);
+            return await _context.DataFrances.Include(b=>b.project).FirstOrDefaultAsync(p=>p.id==id);
         }
 
         public void Update(DataFrances dataFrances)

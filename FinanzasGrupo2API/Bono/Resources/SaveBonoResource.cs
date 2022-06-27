@@ -4,23 +4,23 @@ namespace FinanzasGrupo2API.Bonos.Resources
 {
     public class SaveBonoResource
     {
-        [Required] public float ValorNominal { get; set; }
-        [Required] public float ValorComercial { get; set; }
-        [Required] public float TasaCupon { get; set; }
-        [Required] [MaxLength(50)] public string FrecuenciaPago { get; set; }
-        [Required] [MaxLength(50)]  public string MetodoPago { get; set; }
-        [Required] public int Periodos { get; set; }
-        [Required] public float TEA { get; set; }
-        [Required] public float Prima { get; set; }
-        [Required] public float Estructuracion { get; set; }
-        [Required] public float Colocacion { get; set; }
-        [Required] public float Flotacion { get; set; }
-        [Required] public float GastosAdicionales { get; set; }
-        [Required] public float ImpuestoRenta { get; set; }
-        [Required][MaxLength(50)] public string Moneda { get; set; }
+        [Required] public float valor_nominal { get; set; }
+        [Required] public float valor_comercial { get; set; }
+        [Required] public float tasa_cupon { get; set; }
+        [Required] [MaxLength(50)] public string frecuencia_pago { get; set; }
+        [Required] [MaxLength(50)]  public string metodo_pago { get; set; }
+        [Required] public int periodos { get; set; }
+        [Required] public float tea { get; set; }
+        [Required] public float prima { get; set; }
+        [Required] public float estructuracion { get; set; }
+        [Required] public float colocacion { get; set; }
+        [Required] public float flotacion { get; set; }
+        [Required] public float gastos_adicionales { get; set; }
+        [Required] public float impuesto_renta { get; set; }
+        [Required][MaxLength(50)] public string moneda { get; set; }
 
         //Relationships
-        [Required] public int ProjectId { get; set; }
+        [Required] public int proyectos_id { get; set; }
 
     }
 }

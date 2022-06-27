@@ -3,18 +3,16 @@ using System.Text.Json.Serialization;
 
 namespace FinanzasGrupo2API.Security.Domain.Models
 {
-    public class User
+    public class Usuario
     {
-      public int Id { get; set; }
-      public string Username { get; set; }
-      public string FirstName { get; set; }
-      public string LastName { get; set; }
-      public string Email { get; set; }
-      
-      [JsonIgnore]
-      public string PasswordHash { get; set; }
+      public int id { get; set; }
+      public string nombre { get; set; }
+      public string email { get; set; }
 
-      public IList<Project> Projects { get; set; }
+      [JsonIgnore]
+      public string password_hash { get; set; }
+
+      public IList<Proyecto> projects { get; set; }
    
     }
 }

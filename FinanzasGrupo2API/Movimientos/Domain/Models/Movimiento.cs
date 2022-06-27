@@ -6,18 +6,17 @@ namespace FinanzasGrupo2API.Movimientos.Domain.Models
 {
     public class Movimiento
     {
-        public int Id { get; set; }
+        public int id { get; set; }
 
-        public string Nombre { get; set; }
-        public string Monto { get; set; }
-        public float Incremento { get; set; }
-        public string MesAplicable { get; set; }
-        public TipoMovimiento TipoMovimiento { get; set; }
-
+        public string nombre { get; set; }
+        public string monto { get; set; }
+        public float incremento { get; set; }
+        public string mes_aplicable { get; set; }
 
         //Relationships
-
         [JsonIgnore]
-        public Crud Crud { get; set; }
+        public TipoMovimiento tipo_movimiento { get; set; }
+        [JsonIgnore]
+        public Crud crud { get; set; }
     }
 }

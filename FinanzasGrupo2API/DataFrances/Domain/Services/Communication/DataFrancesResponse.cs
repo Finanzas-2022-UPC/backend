@@ -1,7 +1,7 @@
-﻿using FinanzasGrupo2API.DataFrancess.Domain.Models;
+﻿using FinanzasGrupo2API.DatasFrances.Domain.Models;
 using FinanzasGrupo2API.Shared.Domain.Services.Communication;
 
-namespace FinanzasGrupo2API.DataFrancess.Domain.Services.Communication
+namespace FinanzasGrupo2API.DatasFrances.Domain.Services.Communication
 {
     public class DataFrancesResponse : BaseResponse<Models.DataFrances>
     {

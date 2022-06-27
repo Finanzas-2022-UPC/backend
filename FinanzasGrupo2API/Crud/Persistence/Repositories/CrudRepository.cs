@@ -17,7 +17,7 @@ namespace FinanzasGrupo2API.Cruds.Persistence.Repositories
 
         public async Task<IEnumerable<Crud>> ListAsync()
         {
-            return await _context.Cruds.Include(b=>b.Project).ToListAsync();
+            return await _context.Cruds.Include(b=>b.project).ToListAsync();
         }
        
         public async Task AddAsync(Crud crud)
@@ -27,7 +27,7 @@ namespace FinanzasGrupo2API.Cruds.Persistence.Repositories
 
         public async Task<Crud> FindByIdAsync(int id)
         {
-            return await _context.Cruds.Include(b=>b.Project).FirstOrDefaultAsync(p=>p.Id==id);
+            return await _context.Cruds.Include(b=>b.project).FirstOrDefaultAsync(p=>p.id==id);
         }
 
         public void Update(Crud crud)

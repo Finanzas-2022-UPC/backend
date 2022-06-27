@@ -3,7 +3,7 @@ using FinanzasGrupo2API.Projects.Domain.Models;
 using FinanzasGrupo2API.Shared.Extensions;
 using Microsoft.EntityFrameworkCore;
 using FinanzasGrupo2API.Bonos.Domain.Models;
-using FinanzasGrupo2API.DataFrancess.Domain.Models;
+using FinanzasGrupo2API.DatasFrances.Domain.Models;
 using FinanzasGrupo2API.Movimientos.Domain.Models;
 using FinanzasGrupo2API.Cruds.Domain.Models;
 
@@ -11,8 +11,8 @@ namespace FinanzasGrupo2API.Shared.Persistence.Contexts
 {
     public class AppDbContext : DbContext
     {
-        public DbSet<User> Users { get; set; }
-        public DbSet<Project> Projects { get; set; }
+        public DbSet<Usuario> Users { get; set; }
+        public DbSet<Proyecto> Projects { get; set; }
         public DbSet<Bono> Bonos { get; set; }
         public DbSet<DataFrances> DataFrances { get; set; }
         public DbSet<Crud> Cruds { get; set; }
@@ -27,85 +27,83 @@ namespace FinanzasGrupo2API.Shared.Persistence.Contexts
             base.OnModelCreating(builder);
 
             //Users
-            builder.Entity<User>().ToTable("Users");
-            builder.Entity<User>().HasKey(u => u.Id);
-            builder.Entity<User>().Property(u => u.Id).IsRequired().ValueGeneratedOnAdd();
-            builder.Entity<User>().Property(u => u.FirstName).IsRequired().HasMaxLength(50);
-            builder.Entity<User>().Property(u => u.LastName).IsRequired().HasMaxLength(50);
-            builder.Entity<User>().Property(u => u.Email).IsRequired().HasMaxLength(50);
+            builder.Entity<Usuario>().ToTable("usuarios");
+            builder.Entity<Usuario>().HasKey(u => u.id);
+            builder.Entity<Usuario>().Property(u => u.id).IsRequired().ValueGeneratedOnAdd();
+            builder.Entity<Usuario>().Property(u => u.email).IsRequired().HasMaxLength(50);
 
             //Projects
-            builder.Entity<Project>().ToTable("Projects");
-            builder.Entity<Project>().HasKey(p => p.Id);
-            builder.Entity<Project>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
-            builder.Entity<Project>().Property(p => p.Name).IsRequired().HasMaxLength(50);
-            builder.Entity<Project>().Property(p => p.UrlToImage);
-            builder.Entity<Project>().HasOne(p => p.User).WithMany(u => u.Projects).IsRequired();
-            builder.Entity<Project>().HasOne(p => p.Bono).WithOne(b => b.Project).IsRequired().HasForeignKey<Bono>(b => b.Id);
-            builder.Entity<Project>().HasOne(p => p.DataFrances).WithOne(dF => dF.Project).IsRequired().HasForeignKey<DataFrances>(dF => dF.Id);
+            builder.Entity<Proyecto>().ToTable("proyectos");
+            builder.Entity<Proyecto>().HasKey(p => p.id);
+            builder.Entity<Proyecto>().Property(p => p.id).IsRequired().ValueGeneratedOnAdd();
+            builder.Entity<Proyecto>().Property(p => p.nombre).IsRequired().HasMaxLength(50);
+            builder.Entity<Proyecto>().Property(p => p.url_to_image);
+            builder.Entity<Proyecto>().HasOne(p => p.usuario).WithMany(u => u.projects).IsRequired();
+            builder.Entity<Proyecto>().HasOne(p => p.bono).WithOne(b => b.project).IsRequired().HasForeignKey<Bono>(b => b.id);
+            builder.Entity<Proyecto>().HasOne(p => p.data_frances).WithOne(dF => dF.project).IsRequired().HasForeignKey<DataFrances>(dF => dF.id);
 
             //Bonos
-            builder.Entity<Bono>().ToTable("Bonos");
-            builder.Entity<Bono>().HasKey(b => b.Id);
-            builder.Entity<Bono>().Property(b => b.Id).IsRequired().ValueGeneratedOnAdd();
-            builder.Entity<Bono>().Property(b => b.ValorNominal).IsRequired();
-            builder.Entity<Bono>().Property(b => b.ValorComercial).IsRequired();
-            builder.Entity<Bono>().Property(b => b.TasaCupon).IsRequired();
-            builder.Entity<Bono>().Property(b => b.FrecuenciaPago).HasMaxLength(50).IsRequired();
-            builder.Entity<Bono>().Property(b => b.MetodoPago).HasMaxLength(50).IsRequired();
-            builder.Entity<Bono>().Property(b => b.Periodos).IsRequired();
-            builder.Entity<Bono>().Property(b => b.TEA).IsRequired();
-            builder.Entity<Bono>().Property(b => b.Prima).IsRequired();
-            builder.Entity<Bono>().Property(b => b.Estructuracion).IsRequired();
-            builder.Entity<Bono>().Property(b => b.Colocacion).IsRequired();
-            builder.Entity<Bono>().Property(b => b.Flotacion).IsRequired();
-            builder.Entity<Bono>().Property(b => b.GastosAdicionales).IsRequired();
-            builder.Entity<Bono>().Property(b => b.ImpuestoRenta).IsRequired();
-            builder.Entity<Bono>().Property(b => b.Moneda).HasMaxLength(50).IsRequired();
+            builder.Entity<Bono>().ToTable("bonos");
+            builder.Entity<Bono>().HasKey(b => b.id);
+            builder.Entity<Bono>().Property(b => b.id).IsRequired().ValueGeneratedOnAdd();
+            builder.Entity<Bono>().Property(b => b.valor_nominal).IsRequired();
+            builder.Entity<Bono>().Property(b => b.valor_comercial).IsRequired();
+            builder.Entity<Bono>().Property(b => b.tasa_cupon).IsRequired();
+            builder.Entity<Bono>().Property(b => b.frecuencia_pago).HasMaxLength(50).IsRequired();
+            builder.Entity<Bono>().Property(b => b.metodo_pago).HasMaxLength(50).IsRequired();
+            builder.Entity<Bono>().Property(b => b.periodos).IsRequired();
+            builder.Entity<Bono>().Property(b => b.tea).IsRequired();
+            builder.Entity<Bono>().Property(b => b.prima).IsRequired();
+            builder.Entity<Bono>().Property(b => b.estructuracion).IsRequired();
+            builder.Entity<Bono>().Property(b => b.colocacion).IsRequired();
+            builder.Entity<Bono>().Property(b => b.flotacion).IsRequired();
+            builder.Entity<Bono>().Property(b => b.gastos_adicionales).IsRequired();
+            builder.Entity<Bono>().Property(b => b.impuesto_renta).IsRequired();
+            builder.Entity<Bono>().Property(b => b.moneda).HasMaxLength(50).IsRequired();
             
 
             //DataFrances
-            builder.Entity<DataFrances>().ToTable("DataFrances");
-            builder.Entity<DataFrances>().HasKey(dF => dF.Id);
-            builder.Entity<DataFrances>().Property(dF => dF.Id).IsRequired().ValueGeneratedOnAdd();
-            builder.Entity<DataFrances>().Property(dF => dF.ValorTerreno).IsRequired();
-            builder.Entity<DataFrances>().Property(dF => dF.CuotaInicialP);
-            builder.Entity<DataFrances>().Property(dF => dF.CuotaInicial);
-            builder.Entity<DataFrances>().Property(dF => dF.TEA);
-            builder.Entity<DataFrances>().Property(dF => dF.Metodo).HasMaxLength(50).IsRequired();
-            builder.Entity<DataFrances>().Property(dF => dF.PlazoAnhos);
-            builder.Entity<DataFrances>().Property(dF => dF.PlazoSemestre);
-            builder.Entity<DataFrances>().Property(dF => dF.PlazoGracia);
-            builder.Entity<DataFrances>().Property(dF => dF.Capital);
-            builder.Entity<DataFrances>().Property(dF => dF.TeSemestral);
-            builder.Entity<DataFrances>().Property(dF => dF.CreditoCapitalizado);
-            builder.Entity<DataFrances>().Property(dF => dF.NuevaCuota);
+            builder.Entity<DataFrances>().ToTable("data_frances");
+            builder.Entity<DataFrances>().HasKey(dF => dF.id);
+            builder.Entity<DataFrances>().Property(dF => dF.id).IsRequired().ValueGeneratedOnAdd();
+            builder.Entity<DataFrances>().Property(dF => dF.valor_terreno).IsRequired();
+            builder.Entity<DataFrances>().Property(dF => dF.cuota_inicial_p);
+            builder.Entity<DataFrances>().Property(dF => dF.cuota_inicial);
+            builder.Entity<DataFrances>().Property(dF => dF.tea);
+            builder.Entity<DataFrances>().Property(dF => dF.metodo).HasMaxLength(50).IsRequired();
+            builder.Entity<DataFrances>().Property(dF => dF.plazo_anhos);
+            builder.Entity<DataFrances>().Property(dF => dF.plazo_semestre);
+            builder.Entity<DataFrances>().Property(dF => dF.plazo_gracia);
+            builder.Entity<DataFrances>().Property(dF => dF.capital);
+            builder.Entity<DataFrances>().Property(dF => dF.te_semestral);
+            builder.Entity<DataFrances>().Property(dF => dF.credito_capitalizado);
+            builder.Entity<DataFrances>().Property(dF => dF.nueva_cuota);
             
 
             //Cruds
-            builder.Entity<Crud>().ToTable("Cruds");
-            builder.Entity<Crud>().HasKey(c => c.Id);
-            builder.Entity<Crud>().Property(c => c.Id).IsRequired().ValueGeneratedOnAdd();
-            builder.Entity<Crud>().Property(c => c.Nombre).IsRequired().HasMaxLength(50);
-            builder.Entity<Crud>().Property(c => c.Tipo).IsRequired().HasMaxLength(50);
-            builder.Entity<Crud>().HasOne(c => c.Project).WithMany(p => p.Cruds).IsRequired();
+            builder.Entity<Crud>().ToTable("crud");
+            builder.Entity<Crud>().HasKey(c => c.id);
+            builder.Entity<Crud>().Property(c => c.id).IsRequired().ValueGeneratedOnAdd();
+            builder.Entity<Crud>().Property(c => c.nombre).IsRequired().HasMaxLength(50);
+            builder.Entity<Crud>().Property(c => c.tipo).IsRequired().HasMaxLength(50);
+            builder.Entity<Crud>().HasOne(c => c.project).WithMany(p => p.cruds).IsRequired();
 
             //Movimientos
-            builder.Entity<Movimiento>().ToTable("Movimientos");
-            builder.Entity<Movimiento>().HasKey(m => m.Id);
-            builder.Entity<Movimiento>().Property(m => m.Id).IsRequired().ValueGeneratedOnAdd();
-            builder.Entity<Movimiento>().Property(m => m.Nombre).IsRequired().HasMaxLength(50);
-            builder.Entity<Movimiento>().Property(m => m.Monto).IsRequired().HasMaxLength(50);
-            builder.Entity<Movimiento>().Property(m => m.Incremento);
-            builder.Entity<Movimiento>().Property(m => m.MesAplicable).IsRequired().HasMaxLength(50);
-            builder.Entity<Movimiento>().HasOne(m => m.TipoMovimiento);
-            builder.Entity<Movimiento>().HasOne(m => m.Crud).WithMany(c => c.Movimientos).IsRequired();
+            builder.Entity<Movimiento>().ToTable("movimientos");
+            builder.Entity<Movimiento>().HasKey(m => m.id);
+            builder.Entity<Movimiento>().Property(m => m.id).IsRequired().ValueGeneratedOnAdd();
+            builder.Entity<Movimiento>().Property(m => m.nombre).IsRequired().HasMaxLength(50);
+            builder.Entity<Movimiento>().Property(m => m.monto).IsRequired().HasMaxLength(50);
+            builder.Entity<Movimiento>().Property(m => m.incremento);
+            builder.Entity<Movimiento>().Property(m => m.mes_aplicable).IsRequired().HasMaxLength(50);
+            builder.Entity<Movimiento>().HasOne(m => m.tipo_movimiento);
+            builder.Entity<Movimiento>().HasOne(m => m.crud).WithMany(c => c.movimientos).IsRequired();
 
             //TipoMovimientos
-            builder.Entity<TipoMovimiento>().ToTable("TipoMovimientos");
-            builder.Entity<TipoMovimiento>().HasKey(c => c.Id);
-            builder.Entity<TipoMovimiento>().Property(c => c.Id).IsRequired().ValueGeneratedOnAdd();
-            builder.Entity<TipoMovimiento>().Property(c => c.Tipo).IsRequired().HasMaxLength(50);
+            builder.Entity<TipoMovimiento>().ToTable("tipo_movimientos");
+            builder.Entity<TipoMovimiento>().HasKey(c => c.id);
+            builder.Entity<TipoMovimiento>().Property(c => c.id).IsRequired().ValueGeneratedOnAdd();
+            builder.Entity<TipoMovimiento>().Property(c => c.tipo).IsRequired().HasMaxLength(50);
 
             builder.UseSnakeCaseNamingConvention();
 

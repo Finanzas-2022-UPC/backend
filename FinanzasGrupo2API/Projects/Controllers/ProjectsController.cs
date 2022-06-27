@@ -9,36 +9,36 @@ namespace FinanzasGrupo2API.Projects.Controllers
 {
     [ApiController]
     [Route("/api/v1/[controller]")]
-    public class ProjectsController : ControllerBase
+    public class ProyectosController : ControllerBase
     {
-        private readonly IProjectService _projectService;
+        private readonly IProyectoService _projectService;
         private readonly IMapper _mapper;
 
-        public ProjectsController(IProjectService projectService, IMapper mapper)
+        public ProyectosController(IProyectoService projectService, IMapper mapper)
         {
             _projectService = projectService;
             _mapper = mapper;
         }
         
         [HttpGet]
-        public async Task<IEnumerable<ProjectResource>> GetAllAsync(int ?userId)
+        public async Task<IEnumerable<ProyectoResource>> GetAllAsync(int ?userId)
         {
             var projects = await _projectService.ListAsync(userId);
-            var resources = _mapper.Map<IEnumerable<Project>, IEnumerable<ProjectResource>>(projects);
+            var resources = _mapper.Map<IEnumerable<Proyecto>, IEnumerable<ProyectoResource>>(projects);
             return resources;
             
         }
         
         [HttpGet("{id}")]
-        public async Task<ProjectResource> GetById(int id)
+        public async Task<ProyectoResource> GetById(int id)
         {
             var project = await _projectService.GetById(id);
-            var resource = _mapper.Map<Project, ProjectResource>(project);
+            var resource = _mapper.Map<Proyecto, ProyectoResource>(project);
             return resource;
         }
         
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody] SaveProjectResource resource)
+        public async Task<IActionResult> PostAsync([FromBody] SaveProyectoResource resource)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.GetErrorMessages());
@@ -49,23 +49,23 @@ namespace FinanzasGrupo2API.Projects.Controllers
             if (!projectResult.Success)
                 return BadRequest(projectResult.Message);
 
-            var projectResource = _mapper.Map<Project, ProjectResource>(projectResult.Resource);
+            var projectResource = _mapper.Map<Proyecto, ProyectoResource>(projectResult.Resource);
             return Ok(projectResource);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAsync(int id, [FromBody] SaveProjectResource resource)
+        public async Task<IActionResult> PutAsync(int id, [FromBody] SaveProyectoResource resource)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.GetErrorMessages());
 
-            var project = _mapper.Map<SaveProjectResource, Project>(resource);
+            var project = _mapper.Map<SaveProyectoResource, Proyecto>(resource);
             var result = await _projectService.UpdateAsync(id, project);
             
             if (!result.Success)
                 return BadRequest(result.Message);
 
-            var projectResource = _mapper.Map<Project, ProjectResource>(result.Resource);
+            var projectResource = _mapper.Map<Proyecto, ProyectoResource>(result.Resource);
             return Ok(projectResource);
         }
         
@@ -76,7 +76,7 @@ namespace FinanzasGrupo2API.Projects.Controllers
             if (!result.Success)
                 return BadRequest(result.Message);
             
-            var categoryResource = _mapper.Map<Project, ProjectResource>(result.Resource);
+            var categoryResource = _mapper.Map<Proyecto, ProyectoResource>(result.Resource);
             return Ok(categoryResource);
         }
         

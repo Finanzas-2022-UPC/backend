@@ -1,6 +1,6 @@
-﻿using FinanzasGrupo2API.DataFrancess.Domain.Models;
+﻿using FinanzasGrupo2API.DatasFrances.Domain.Models;
 
-namespace FinanzasGrupo2API.DataFrancess.Domain.Repositories
+namespace FinanzasGrupo2API.DatasFrances.Domain.Repositories
 {
     public interface IDataFrancesRepository
     {

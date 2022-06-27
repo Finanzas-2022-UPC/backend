@@ -2,13 +2,13 @@
 
 namespace FinanzasGrupo2API.Projects.Resources
 {
-    public class SaveProjectResource
+    public class SaveProyectoResource
     {
-        [Required] [MinLength(15)] public string Name { get; set; }
+        [Required] [MaxLength(50)] public string nombre { get; set; }
              
-        public string UrlToImage { get; set; }
+        public string url_to_image { get; set; }
                           
-        [Required] public int UserId { get; set; }
+        [Required] public int usuarios_id { get; set; }
 
     }
 }

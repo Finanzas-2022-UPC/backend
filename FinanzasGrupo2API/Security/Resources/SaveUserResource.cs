@@ -2,23 +2,17 @@
 
 namespace FinanzasGrupo2API.Security.Resources
 {
-    public class SaveUserResource
+    public class SaveUsuarioResource
     {
         [Required]
         [MaxLength(50)]
-        public string Username  { get; set; }
+        public string nombre  { get; set; }
         
         [Required]
-        [EmailAddress]
-        public string Email { get; set; }
+        public string email { get; set; }
         
         [Required]
         [MinLength(6)]
-        public string Password { get; set; }
-
-        public string URLImage { get; set; }
-
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public string password { get; set; }
     }
 }

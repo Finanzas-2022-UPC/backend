@@ -1,29 +1,29 @@
 ﻿using FinanzasGrupo2API.Bonos.Domain.Models;
 using FinanzasGrupo2API.Cruds.Domain.Models;
-using FinanzasGrupo2API.DataFrancess.Domain.Models;
+using FinanzasGrupo2API.DatasFrances.Domain.Models;
 using FinanzasGrupo2API.Security.Domain.Models;
 using System.Text.Json.Serialization;
 
 namespace FinanzasGrupo2API.Projects.Domain.Models
 {
-    public class Project
+    public class Proyecto
     {
-        public int Id { get; set; }
+        public int id { get; set; }
              
-        public string UrlToImage { get; set; }
+        public string url_to_image { get; set; }
              
-        public string Name { get; set; }
+        public string nombre { get; set; }
 
         //Relationships
 
         [JsonIgnore]
-        public User User { get; set; }
+        public Usuario usuario { get; set; }
 
-        public Bono Bono { get; set; }
+        public Bono bono { get; set; }
 
-        public DataFrances DataFrances { get; set; }
+        public DataFrances data_frances { get; set; }
 
-        public IList<Crud> Cruds { get; set; }
+        public IList<Crud> cruds { get; set; }
 
     }
 }

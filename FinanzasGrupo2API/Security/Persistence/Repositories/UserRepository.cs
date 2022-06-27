@@ -6,48 +6,43 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FinanzasGrupo2API.Security.Persistence.Repositories
 {
-    public class UserRepository : BaseRepository, IUserRepository
+    public class UsuarioRepository : BaseRepository, IUsuarioRepository
     {
-        public UserRepository(AppDbContext context) : base(context)
+        public UsuarioRepository(AppDbContext context) : base(context)
         {
         }
 
-        public async Task<IEnumerable<User>> ListAsync()
+        public async Task<IEnumerable<Usuario>> ListAsync()
         {
             return await _context.Users.ToListAsync();
         }
         
-        public async Task AddAsync(User user)
+        public async Task AddAsync(Usuario user)
         {
             await _context.Users.AddAsync(user);
         }
 
-        public async Task<User> FindByIdAsync(int id)
+        public async Task<Usuario> FindByIdAsync(int id)
         {
-            return await _context.Users.FirstOrDefaultAsync(p => p.Id == id);
+            return await _context.Users.FirstOrDefaultAsync(p => p.id == id);
         }
 
-        public async Task<User> FindByUsernameAsync(string username)
+        public bool ExistsByEmail(string email)
         {
-            return await _context.Users.FirstOrDefaultAsync(p => p.Username == username);
+            return _context.Users.Any(u => u.email == email);
         }
 
-        public bool ExistsByUsername(string username)
+        public async Task<Usuario> FindByEmailAsync(string email)
         {
-            return _context.Users.Any(u => u.Username == username);
-        }
-
-        public async Task<User> FindByEmailAsync(string email)
-        {
-            return await _context.Users.FirstOrDefaultAsync(p => p.Email == email);
+            return await _context.Users.FirstOrDefaultAsync(p => p.email == email);
         }
         
-        public void Update(User user)
+        public void Update(Usuario user)
         {
             _context.Users.Update(user);
         }
 
-        public void Remove(User user)
+        public void Remove(Usuario user)
         {
             _context.Users.Remove(user);
         }

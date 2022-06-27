@@ -13,11 +13,11 @@ namespace FinanzasGrupo2API.Cruds.Services
     public class CrudService : ICrudService
     {
         private readonly ICrudRepository _crudRepository;
-        private readonly IProjectRepository _projectRepository;
+        private readonly IProyectoRepository _projectRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public CrudService(ICrudRepository crudRepository, IProjectRepository projectRepository, IUnitOfWork unitOfWork, IMapper mapper)
+        public CrudService(ICrudRepository crudRepository, IProyectoRepository projectRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _crudRepository = crudRepository;
             _projectRepository = projectRepository;
@@ -29,12 +29,12 @@ namespace FinanzasGrupo2API.Cruds.Services
         {
             var cruds = await _crudRepository.ListAsync();
 
-            if ((type == null || type.Equals("")) && !projectId.HasValue)
-                return cruds.Where(m => m.Tipo == type).ToArray();
+            if (!(type == null || type.Equals("")) && !projectId.HasValue)
+                return cruds.Where(m => m.tipo == type).ToArray();
             else if ((type == null || type.Equals("")) && projectId.HasValue)
-                return cruds.Where(m => m.Project.Id == projectId.Value).ToArray();
-            else if ((type == null || type.Equals("")) && projectId.HasValue)
-                return cruds.Where(m => m.Project.Id == projectId.Value && m.Tipo == type).ToArray();
+                return cruds.Where(m => m.project.id == projectId.Value).ToArray();
+            else if (!(type == null || type.Equals("")) && projectId.HasValue)
+                return cruds.Where(m => m.project.id == projectId.Value && m.tipo == type).ToArray();
 
             return cruds.ToArray();
         }
@@ -48,10 +48,10 @@ namespace FinanzasGrupo2API.Cruds.Services
         {
             var crud = _mapper.Map<SaveCrudResource, Crud>(crudResource);
 
-            var existingProject = await _projectRepository.FindByIdAsync(crudResource.ProjectId);
+            var existingProject = await _projectRepository.FindByIdAsync(crudResource.project_id);
             if (existingProject == null)
                 return new CrudResponse("Project Not Found");
-            crud.Project = existingProject;
+            crud.project = existingProject;
 
             try
             {

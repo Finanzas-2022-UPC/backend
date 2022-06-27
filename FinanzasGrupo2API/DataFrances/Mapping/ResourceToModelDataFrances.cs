@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using FinanzasGrupo2API.DataFrancess.Domain.Models;
-using FinanzasGrupo2API.DataFrancess.Resources;
+using FinanzasGrupo2API.DatasFrances.Domain.Models;
+using FinanzasGrupo2API.DatasFrances.Resources;
 
-namespace FinanzasGrupo2API.DataFrancess.Mapping
+namespace FinanzasGrupo2API.DatasFrances.Mapping
 {
     public class ResourceToModelDataFrances : Profile
     {

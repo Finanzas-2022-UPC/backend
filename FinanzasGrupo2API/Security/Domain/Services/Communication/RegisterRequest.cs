@@ -5,15 +5,14 @@ namespace FinanzasGrupo2API.Security.Domain.Services.Communication
     public class RegisterRequest
     {
         [Required]
-        public string FirstName { get; set; }
+        [MaxLength(50)]
+        public string nombre { get; set; }
         [Required]
-        public string Email { get; set; }
+        [MaxLength(50)]
+        public string email { get; set; }
         [Required]
-        public string LastName { get; set; }
-        [Required]
-        public string Username { get; set; }
-        [Required]
-        public string Password { get; set; }
+        [MaxLength(50)]
+        public string password { get; set; }
 
     }
 }

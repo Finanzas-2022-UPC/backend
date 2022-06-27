@@ -10,15 +10,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FinanzasGrupo2API.Security.Controllers
 {
-    [Authorize]
     [ApiController]
     [Route("/api/v1/[controller]")]
-    public class UsersController : ControllerBase
+    public class UsuariosController : ControllerBase
     {
-        private readonly IUserService _userService;
+        private readonly IUsuarioService _userService;
         private readonly IMapper _mapper;
 
-        public UsersController(IUserService userService, IMapper mapper)
+        public UsuariosController(IUsuarioService userService, IMapper mapper)
         {
             _userService = userService;
             _mapper = mapper;
@@ -41,10 +40,10 @@ namespace FinanzasGrupo2API.Security.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<UserResource>> GetAllAsync()
+        public async Task<IEnumerable<UsuarioResource>> GetAllAsync()
         {
             var users = await _userService.ListAsync();
-            var resources = _mapper.Map<IEnumerable<Domain.Models.User>, IEnumerable<UserResource>>(users);
+            var resources = _mapper.Map<IEnumerable<Domain.Models.Usuario>, IEnumerable<UsuarioResource>>(users);
             return resources;
         }
         
@@ -67,18 +66,17 @@ namespace FinanzasGrupo2API.Security.Controllers
         */
         
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAsync(int id, [FromBody] SaveUserResource resource)
+        public async Task<IActionResult> PutAsync(int id, [FromBody] SaveUsuarioResource resource)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.GetErrorMessages());
 
-            var user = _mapper.Map<SaveUserResource, Domain.Models.User>(resource);
-            var result = await _userService.UpdateAsync(id, user);
+            var result = await _userService.UpdateAsync(id, resource);
             
             if (!result.Success)
                 return BadRequest(result.Message);
 
-            var userResource = _mapper.Map<Domain.Models.User, UserResource>(result.Resource);
+            var userResource = _mapper.Map<Domain.Models.Usuario, UsuarioResource>(result.Resource);
             return Ok(userResource);
 
         }
@@ -91,7 +89,7 @@ namespace FinanzasGrupo2API.Security.Controllers
             if (!result.Success)
                 return BadRequest(result.Message);
 
-            var productResource = _mapper.Map<Domain.Models.User, UserResource>(result.Resource);
+            var productResource = _mapper.Map<Domain.Models.Usuario, UsuarioResource>(result.Resource);
             return Ok(productResource);
         }
     }

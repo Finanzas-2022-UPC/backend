@@ -21,7 +21,7 @@ namespace FinanzasGrupo2API.Bonos.Controllers
         }
         
         [HttpGet]
-        public async Task<IEnumerable<BonoResource>> GetAllAsync([FromQuery] int ?bonoType)
+        public async Task<IEnumerable<BonoResource>> GetAllAsync()
         {
             var bonos = await _bonoService.ListAsync();
             var resources = _mapper.Map<IEnumerable<Bono>, IEnumerable<BonoResource>>(bonos);

@@ -13,11 +13,11 @@ namespace FinanzasGrupo2API.Bonos.Services
     public class BonoService : IBonoService
     {
         private readonly IBonoRepository _bonoRepository;
-        private readonly IProjectRepository _projectRepository;
+        private readonly IProyectoRepository _projectRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public BonoService(IBonoRepository bonoRepository, IProjectRepository projectRepository, IUnitOfWork unitOfWork, IMapper mapper)
+        public BonoService(IBonoRepository bonoRepository, IProyectoRepository projectRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _bonoRepository = bonoRepository;
             _projectRepository = projectRepository;
@@ -39,10 +39,10 @@ namespace FinanzasGrupo2API.Bonos.Services
         {
             var bono = _mapper.Map<SaveBonoResource, Bono>(bonoResource);
 
-            var existingProject = await _projectRepository.FindByIdAsync(bonoResource.ProjectId);
+            var existingProject = await _projectRepository.FindByIdAsync(bonoResource.proyectos_id);
             if (existingProject == null)
                 return new BonoResponse("Project Not Found");
-            bono.Project = existingProject;
+            bono.project = existingProject;
 
             try
             {

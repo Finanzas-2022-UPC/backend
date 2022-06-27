@@ -1,24 +1,24 @@
-﻿namespace FinanzasGrupo2API.DataFrancess.Resources
+﻿namespace FinanzasGrupo2API.DatasFrances.Resources
 {
     public class DataFrancesResource
     {
-        public int Id { get; set; }
+        public int id { get; set; }
 
-        public float ValorTerreno { get; set; }
-        public float CuotaInicialP { get; set; }
-        public float CuotaInicial { get; set; }
-        public float TEA { get; set; }
-        public string Metodo { get; set; }
-        public int PlazoAnhos { get; set; }
-        public int PlazoSemestre { get; set; }
-        public int PlazoGracia { get; set; }
-        public float Capital { get; set; }
-        public float TeSemestral { get; set; }
-        public float CreditoCapitalizado { get; set; }
-        public float NuevaCuota { get; set; }
+        public float valor_terreno { get; set; }
+        public float cuota_inicial_p { get; set; }
+        public float cuota_inicial { get; set; }
+        public float tea { get; set; }
+        public string metodo { get; set; }
+        public int plazo_anhos { get; set; }
+        public int plazo_semestre { get; set; }
+        public int plazo_gracia { get; set; }
+        public float capital { get; set; }
+        public float te_semestral { get; set; }
+        public float credito_capitalizado { get; set; }
+        public float nueva_cuota { get; set; }
 
         //Relationships
 
-        public int ProjectId { get; set; }
+        public int project_id { get; set; }
     }
 }

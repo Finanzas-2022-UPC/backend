@@ -4,16 +4,16 @@ using FinanzasGrupo2API.Projects.Domain.Models;
 
 namespace FinanzasGrupo2API.Projects.Domain.Repositories
 {
-    public interface IProjectRepository
+    public interface IProyectoRepository
     {
-        Task<IEnumerable<Project>> ListAsync();
+        Task<IEnumerable<Proyecto>> ListAsync();
         
-        Task AddAsync(Project project);
+        Task AddAsync(Proyecto project);
 
-        Task<Project> FindByIdAsync(int id);
+        Task<Proyecto> FindByIdAsync(int id);
 
-        void Update(Project project);
+        void Update(Proyecto project);
         
-        void Remove(Project project);
+        void Remove(Proyecto project);
     }
 }

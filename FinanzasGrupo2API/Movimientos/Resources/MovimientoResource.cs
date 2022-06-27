@@ -4,16 +4,16 @@ namespace FinanzasGrupo2API.Movimientos.Resources
 {
     public class MovimientoResource
     {
-        public int Id { get; set; }
+        public int id { get; set; }
 
-        public string Nombre { get; set; }
-        public string Monto { get; set; }
-        public float Incremento { get; set; }
-        public string MesAplicable { get; set; }
-        public TipoMovimiento TipoMovimiento { get; set; }
+        public string nombre { get; set; }
+        public string monto { get; set; }
+        public float incremento { get; set; }
+        public string mes_aplicable { get; set; }
+        public int tipo_movimientos_id { get; set; }
 
         //Relationships
              
-        public int CrudId { get; set; }
+        public int crud_id { get; set; }
     }
 }

@@ -3,13 +3,13 @@ using FinanzasGrupo2API.Shared.Domain.Services.Communication;
 
 namespace FinanzasGrupo2API.Security.Domain.Services.Communication
 {
-    public class UserResponse : BaseResponse<User>
+    public class UsuarioResponse : BaseResponse<Usuario>
     {
-        public UserResponse(string message) : base(message)
+        public UsuarioResponse(string message) : base(message)
         {
         }
 
-        public UserResponse(User user) : base(user)
+        public UsuarioResponse(Usuario user) : base(user)
         {
         }
     }

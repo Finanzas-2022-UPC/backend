@@ -9,9 +9,9 @@ namespace FinanzasGrupo2API.Security.Mapping
     {
         public ModelToResourceProfile()
         {
-            CreateMap<User, AuthenticateResponse>();
+            CreateMap<Usuario, AuthenticateResponse>();
             
-            CreateMap<User, UserResource>();
+            CreateMap<Usuario, UsuarioResource>();
 
         }
     }

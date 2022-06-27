@@ -6,34 +6,34 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FinanzasGrupo2API.Projects.Persistence.Repositories
 {
-    public class ProjectRepository : BaseRepository, IProjectRepository
+    public class ProyectoRepository : BaseRepository, IProyectoRepository
     {
-        public ProjectRepository(AppDbContext context) : base(context)
+        public ProyectoRepository(AppDbContext context) : base(context)
         {
             
         }
 
-        public async Task<IEnumerable<Project>> ListAsync()
+        public async Task<IEnumerable<Proyecto>> ListAsync()
         {
-            return await _context.Projects.Include(p => p.User).ToListAsync();
+            return await _context.Projects.Include(p => p.usuario).ToListAsync();
         }
 
-        public async Task AddAsync(Project project)
+        public async Task AddAsync(Proyecto project)
         {
             await _context.Projects.AddAsync(project);
         }
 
-        public async Task<Project> FindByIdAsync(int id)
+        public async Task<Proyecto> FindByIdAsync(int id)
         {
-            return await _context.Projects.Include(p => p.User).FirstOrDefaultAsync(p => p.Id == id);
+            return await _context.Projects.Include(p => p.usuario).FirstOrDefaultAsync(p => p.id == id);
         }
 
-        public void Update(Project project)
+        public void Update(Proyecto project)
         {
             _context.Projects.Update(project);
         }
 
-        public void Remove(Project project)
+        public void Remove(Proyecto project)
         {
             _context.Projects.Remove(project);
         }

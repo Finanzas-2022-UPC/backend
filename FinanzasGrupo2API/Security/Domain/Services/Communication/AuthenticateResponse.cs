@@ -2,10 +2,9 @@ namespace FinanzasGrupo2API.Security.Domain.Services.Communication
 {
     public class AuthenticateResponse
     {
-        public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Username { get; set; }
-        public string Token { get; set; }
+        public int id { get; set; }
+        public string nombre { get; set; }
+        public string email { get; set; }
+        public string token { get; set; }
     }
 }

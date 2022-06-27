@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using FinanzasGrupo2API.DataFrancess.Domain.Models;
-using FinanzasGrupo2API.DataFrancess.Domain.Services;
-using FinanzasGrupo2API.DataFrancess.Resources;
+using FinanzasGrupo2API.DatasFrances.Domain.Models;
+using FinanzasGrupo2API.DatasFrances.Domain.Services;
+using FinanzasGrupo2API.DatasFrances.Resources;
 using FinanzasGrupo2API.Shared.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FinanzasGrupo2API.DataFrancess.Controllers
+namespace FinanzasGrupo2API.DatasFrances.Controllers
 {
     [ApiController]
     [Route("/api/v1/[controller]")]
@@ -21,7 +21,7 @@ namespace FinanzasGrupo2API.DataFrancess.Controllers
         }
         
         [HttpGet]
-        public async Task<IEnumerable<DataFrancesResource>> GetAllAsync([FromQuery] int ?dataFrancesType)
+        public async Task<IEnumerable<DataFrancesResource>> GetAllAsync()
         {
             var dataFrancess = await _dataFrancesService.ListAsync();
             var resources = _mapper.Map<IEnumerable<DataFrances>, IEnumerable<DataFrancesResource>>(dataFrancess);

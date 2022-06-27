@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using FinanzasGrupo2API.DataFrancess.Domain.Models;
-using FinanzasGrupo2API.DataFrancess.Domain.Services.Communication;
-using FinanzasGrupo2API.DataFrancess.Resources;
+using FinanzasGrupo2API.DatasFrances.Domain.Models;
+using FinanzasGrupo2API.DatasFrances.Domain.Services.Communication;
+using FinanzasGrupo2API.DatasFrances.Resources;
 
-namespace FinanzasGrupo2API.DataFrancess.Domain.Services
+namespace FinanzasGrupo2API.DatasFrances.Domain.Services
 {
     public interface IDataFrancesService
     {

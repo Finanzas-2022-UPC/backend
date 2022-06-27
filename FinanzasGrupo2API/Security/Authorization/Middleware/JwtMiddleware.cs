@@ -16,7 +16,7 @@ namespace FinanzasGrupo2API.Security.Authorization.Middleware
             _next = next;
         }
 
-        public async Task Invoke(HttpContext context, IUserService userService, IJwtHandler handler)
+        public async Task Invoke(HttpContext context, IUsuarioService userService, IJwtHandler handler)
         {
             var token = context.Request.Headers["Authorization"]
                 .FirstOrDefault()?.Split(" ").Last();

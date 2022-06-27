@@ -3,13 +3,13 @@ using FinanzasGrupo2API.Shared.Domain.Services.Communication;
 
 namespace FinanzasGrupo2API.Projects.Domain.Services.Communication
 {
-    public class ProjectResponse : BaseResponse<Project>
+    public class ProyectoResponse : BaseResponse<Proyecto>
     {
-        public ProjectResponse(string message) : base(message)
+        public ProyectoResponse(string message) : base(message)
         {
         }
 
-        public ProjectResponse(Project project) : base(project)
+        public ProyectoResponse(Proyecto project) : base(project)
         {
         }
     }

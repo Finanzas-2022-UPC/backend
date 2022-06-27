@@ -27,7 +27,7 @@ namespace FinanzasGrupo2API.TipoMovimientos.Persistence.Repositories
 
         public async Task<TipoMovimiento> FindByIdAsync(int id)
         {
-            return await _context.TipoMovimientos.FirstOrDefaultAsync(p=>p.Id==id);
+            return await _context.TipoMovimientos.FirstOrDefaultAsync(p=>p.id==id);
         }
 
         public void Update(TipoMovimiento movimiento)

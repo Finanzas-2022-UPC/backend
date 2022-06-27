@@ -1,21 +1,21 @@
 ﻿using FinanzasGrupo2API.Cruds.Domain.Models;
-using FinanzasGrupo2API.DataFrancess.Domain.Models;
+using FinanzasGrupo2API.DatasFrances.Domain.Models;
 
 namespace FinanzasGrupo2API.Projects.Resources
 {
-    public class ProjectResource
+    public class ProyectoResource
     {
-        public int Id { get; set; }
+        public int id { get; set; }
              
-        public string Name { get; set; }
+        public string nombre { get; set; }
              
-        public string UrlToImage { get; set; }
+        public string url_to_image { get; set; }
              
              
         //Relationships
-        public int UserId { get; set; }
-        public Crud Bono { get; set; }
-        public DataFrances DataFrances { get; set; }
+        public int usuarios_id { get; set; }
+        public Crud bono { get; set; }
+        public DataFrances data_frances { get; set; }
 
     }
 }

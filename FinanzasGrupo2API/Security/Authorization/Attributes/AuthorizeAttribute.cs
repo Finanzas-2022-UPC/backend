@@ -20,7 +20,7 @@ namespace FinanzasGrupo2API.Security.Authorization.Attributes
                 return;
             
             // Authorization Process
-            var user = (User)context.HttpContext.Items["User"];
+            var user = (Usuario)context.HttpContext.Items["User"];
             
             // If user is null then Unauthorized Request    
             if (user == null)

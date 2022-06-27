@@ -20,7 +20,7 @@ namespace FinanzasGrupo2API.Security.Authorization.Handlers.Implementations
             _appSettings = appSettings.Value;
         }
         
-        public string GenerateToken(User user)
+        public string GenerateToken(Usuario user)
         {
             // Generate Token for a valid period of 7 days
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -30,7 +30,7 @@ namespace FinanzasGrupo2API.Security.Authorization.Handlers.Implementations
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                    new Claim("id", user.Id.ToString())
+                    new Claim("id", user.id.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(

@@ -6,16 +6,16 @@ using FinanzasGrupo2API.Projects.Resources;
 
 namespace FinanzasGrupo2API.Projects.Domain.Services
 {
-    public interface IProjectService
+    public interface IProyectoService
     {
-        Task<IEnumerable<Project>> ListAsync(int ? userId);
+        Task<IEnumerable<Proyecto>> ListAsync(int ? userId);
         
-        Task<Project> GetById(int id);
+        Task<Proyecto> GetById(int id);
 
-        Task<ProjectResponse> SaveAsync(SaveProjectResource project);
+        Task<ProyectoResponse> SaveAsync(SaveProyectoResource project);
 
-        Task<ProjectResponse> UpdateAsync(int id, Project project);
+        Task<ProyectoResponse> UpdateAsync(int id, Proyecto project);
 
-        Task<ProjectResponse> DeleteAsync(int id);
+        Task<ProyectoResponse> DeleteAsync(int id);
     }
 }

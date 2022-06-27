@@ -6,16 +6,16 @@ namespace FinanzasGrupo2API.Cruds.Domain.Models
 {
     public class Crud
     {
-        public int Id { get; set; }
+        public int id { get; set; }
 
-        public string Tipo { get; set; }
-        public string Nombre { get; set; }
+        public string tipo { get; set; }
+        public string nombre { get; set; }
 
         //Relationships
 
         [JsonIgnore]
-        public Project Project { get; set; }
-        public IList<Movimiento> Movimientos { get; set; }
+        public Proyecto project { get; set; }
+        public IList<Movimiento> movimientos { get; set; }
              
          }
 }

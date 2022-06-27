@@ -12,10 +12,10 @@ using FinanzasGrupo2API.Cruds.Domain.Repositories;
 using FinanzasGrupo2API.Cruds.Domain.Services;
 using FinanzasGrupo2API.Cruds.Persistence.Repositories;
 using FinanzasGrupo2API.Cruds.Services;
-using FinanzasGrupo2API.DataFrancess.Domain.Repositories;
-using FinanzasGrupo2API.DataFrancess.Domain.Services;
-using FinanzasGrupo2API.DataFrancess.Persistence.Repositories;
-using FinanzasGrupo2API.DataFrancess.Services;
+using FinanzasGrupo2API.DatasFrances.Domain.Repositories;
+using FinanzasGrupo2API.DatasFrances.Domain.Services;
+using FinanzasGrupo2API.DatasFrances.Persistence.Repositories;
+using FinanzasGrupo2API.DatasFrances.Services;
 using FinanzasGrupo2API.Movimientos.Domain.Repositories;
 using FinanzasGrupo2API.Movimientos.Domain.Services;
 using FinanzasGrupo2API.Movimientos.Persistence.Repositories;
@@ -72,18 +72,20 @@ namespace FinanzasGrupo2API
 
             services.AddSwaggerGen(c =>
             {
-                c.DocumentFilter<SnakeCaseDocumentFilter>();
-                c.OperationFilter<SnakeCaseOperationFilter>();
+                //c.DocumentFilter<SnakeCaseDocumentFilter>();
+                //c.SchemaFilter<SnakeCaseSchemaFilter>();
+                //c.OperationFilter<SnakeCaseOperationFilter>();
+                //c.ParameterFilter<SnakeCaseParameterFilter>();
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FinanzasGrupo2API", Version = "v1" });
             });
 
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+            services.AddScoped<IUsuarioService, UsuarioService>();
 
-            services.AddScoped<IProjectRepository, ProjectRepository>();
-            services.AddScoped<IProjectService, ProjectService>();
+            services.AddScoped<IProyectoRepository, ProyectoRepository>();
+            services.AddScoped<IProyectoService, ProyectoService>();
 
             services.AddScoped<IBonoRepository, BonoRepository>();
             services.AddScoped<IBonoService, BonoService>();
@@ -128,7 +130,7 @@ namespace FinanzasGrupo2API
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }

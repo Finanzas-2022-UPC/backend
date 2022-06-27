@@ -8,6 +8,7 @@ using FinanzasGrupo2API.Security.Domain.Repositories;
 using FinanzasGrupo2API.Security.Domain.Services;
 using FinanzasGrupo2API.Security.Domain.Services.Communication;
 using FinanzasGrupo2API.Security.Exceptions;
+using FinanzasGrupo2API.Security.Resources;
 using FinanzasGrupo2API.Shared.Domain.Repositories;
 using FinanzasGrupo2API.Shared.Extensions;
 using BCryptNet = BCrypt.Net.BCrypt;
@@ -15,14 +16,14 @@ using BCryptNet = BCrypt.Net.BCrypt;
 
 namespace FinanzasGrupo2API.Security.Services
 {
-    public class UserService : IUserService
+    public class UsuarioService : IUsuarioService
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUsuarioRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IJwtHandler _jwtHandler;
         private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository, IUnitOfWork unitOfWork, IMapper mapper, IJwtHandler jwtHandler)
+        public UsuarioService(IUsuarioRepository userRepository, IUnitOfWork unitOfWork, IMapper mapper, IJwtHandler jwtHandler)
         {
             _userRepository = userRepository;
             _unitOfWork = unitOfWork;
@@ -32,9 +33,10 @@ namespace FinanzasGrupo2API.Security.Services
 
         public async Task<AuthenticateResponse> Authenticate(AuthenticateRequest request)
         {
-            var user = await _userRepository.FindByUsernameAsync(request.Username);
+            var user = await _userRepository.FindByEmailAsync(request.email);
+
             //Validate
-            if (user == null || !BCryptNet.Verify(request.Password, user.PasswordHash))
+            if (user == null || !BCryptNet.Verify(request.password, user.password_hash))
                 throw new AppException("Username or password is incorrect");
             
             
@@ -42,7 +44,7 @@ namespace FinanzasGrupo2API.Security.Services
             //Authentication successful
             var response = _mapper.Map<AuthenticateResponse>(user);
 
-            response.Token = _jwtHandler.GenerateToken(user);
+            response.token = _jwtHandler.GenerateToken(user);
 
             return response;
         }
@@ -50,15 +52,15 @@ namespace FinanzasGrupo2API.Security.Services
         public async Task RegisterAsync(RegisterRequest request)
         {
             //Validate
-            if (_userRepository.ExistsByUsername(request.Username))
-                throw new AppException($"Username {request.Username} is already taken.");
+            if (_userRepository.ExistsByEmail(request.email))
+                throw new AppException($"Username {request.email} is already taken.");
             
             //Map request to User object
-            var user = _mapper.Map<User>(request);
+            var user = _mapper.Map<Usuario>(request);
             
             
-            //Has password
-            user.PasswordHash = BCryptNet.HashPassword(request.Password);
+            //Hash password
+            user.password_hash = BCryptNet.HashPassword(request.password);
             
             //Save User
             try
@@ -72,97 +74,93 @@ namespace FinanzasGrupo2API.Security.Services
             }
         }
 
-        public async Task<IEnumerable<User>> ListAsync()
+        public async Task<IEnumerable<Usuario>> ListAsync()
         {
             return await _userRepository.ListAsync();
         }
 
-        public async Task<User> GetByIdAsync(int userId)
+        public async Task<Usuario> GetByIdAsync(int userId)
         {
             return await _userRepository.FindByIdAsync(userId);
         }
         
-        public async Task<User> ListByUserUsernameAsync(int userId)
+        public async Task<Usuario> GetByUserEmailAsync(string email)
         {
-            return await _userRepository.FindByIdAsync(userId);
+            return await _userRepository.FindByEmailAsync(email);
         }
 
-        public async Task<UserResponse> SaveAsync(User user)
+        public async Task<UsuarioResponse> SaveAsync(Usuario user)
         {
             //Validate Username
             
-            var existingUsername = await _userRepository.FindByUsernameAsync(user.Username);
+            var existingUsername = await _userRepository.FindByEmailAsync(user.email);
             if (existingUsername != null)
-                return new UserResponse("Username already exists.");
+                return new UsuarioResponse("Username already exists.");
 
             try
             {
                 await _userRepository.AddAsync(user);
                 await _unitOfWork.CompleteAsync();
 
-                return new UserResponse(user);
+                return new UsuarioResponse(user);
             }
             catch (Exception e)
             {
-                return new UserResponse($"An error occurred while saving the user: {e.Message}");
+                return new UsuarioResponse($"An error occurred while saving the user: {e.Message}");
             }
         }
 
-        public async Task<UserResponse> UpdateAsync(int id, User user)
+        public async Task<UsuarioResponse> UpdateAsync(int id, SaveUsuarioResource user)
         {
             //Validate Id
             var existingUserById = await _userRepository.FindByIdAsync(id);
 
             if (existingUserById == null)
-                return new UserResponse("User not found.");
-
-            //Validate Username
-            var existingUserByUsername = await _userRepository.FindByUsernameAsync(user.Username);
-            if (existingUserByUsername != null && existingUserByUsername.Id != id)
-                return new UserResponse("Username already used.");
-            
+                return new UsuarioResponse("User not found.");
+          
             //Validate Email
-            var existingUserByEmail = await _userRepository.FindByEmailAsync(user.Email);
-            if (existingUserByEmail != null && existingUserByEmail.Id != id)
-                return new UserResponse("Email already used.");
+            var existingUserByEmail = await _userRepository.FindByEmailAsync(user.email);
+            if (existingUserByEmail != null && existingUserByEmail.id != id)
+                return new UsuarioResponse("Email already used.");
 
-            existingUserById.Email = user.Email;
-            existingUserById.Username = user.Username;
+            existingUserById.email = user.email;
+            existingUserById.nombre = user.nombre;
+            existingUserById.password_hash = BCryptNet.HashPassword(user.password);
 
             try
             {
                 _userRepository.Update(existingUserById);
                 await _unitOfWork.CompleteAsync();
 
-                return new UserResponse(existingUserById);
+                return new UsuarioResponse(existingUserById);
 
             }
             catch (Exception e)
             {
-                return new UserResponse($"An error occurred while updating the user: {e.Message}");
+                return new UsuarioResponse($"An error occurred while updating the user: {e.Message}");
             }
 
         }
 
-        public async Task<UserResponse> DeleteAsync(int id)
+        public async Task<UsuarioResponse> DeleteAsync(int id)
         {
             //Validate User Id
             var existingUser = await _userRepository.FindByIdAsync(id);
 
             if (existingUser == null)
-                return new UserResponse("User not found.");
+                return new UsuarioResponse("User not found.");
 
             try
             {
                 _userRepository.Remove(existingUser);
                 await _unitOfWork.CompleteAsync();
 
-                return new UserResponse(existingUser);
+                return new UsuarioResponse(existingUser);
 
             }
             catch (Exception e)
             {
-                return new UserResponse($"An error occurred while deleting the user: {e.Message}");
+                return new UsuarioResponse($"An error occurred while deleting the user: {e.Message}");
             }
         }
     }

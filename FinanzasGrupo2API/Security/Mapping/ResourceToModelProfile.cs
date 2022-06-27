@@ -9,9 +9,9 @@ namespace FinanzasGrupo2API.Security.Mapping
     {
         public ResourceToModelProfile()
         {
-            CreateMap<SaveUserResource, User>();
-            CreateMap<RegisterRequest, User>();
-            CreateMap<UpdateRequest, User>()
+            CreateMap<SaveUsuarioResource, Usuario>();
+            CreateMap<RegisterRequest, Usuario>();
+            CreateMap<UpdateRequest, Usuario>()
                 .ForAllMembers(options=>options.Condition(
                     (source, Target, property) =>
                     {
