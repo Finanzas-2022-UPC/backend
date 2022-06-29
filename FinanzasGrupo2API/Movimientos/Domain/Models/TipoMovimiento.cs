@@ -9,5 +9,7 @@ namespace FinanzasGrupo2API.Movimientos.Domain.Models
 
         public string tipo { get; set; }
 
+        public IList<Movimiento> movimientos { get; set; }
+
     }
 }

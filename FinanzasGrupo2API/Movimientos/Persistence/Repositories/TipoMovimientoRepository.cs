@@ -17,7 +17,7 @@ namespace FinanzasGrupo2API.TipoMovimientos.Persistence.Repositories
 
         public async Task<IEnumerable<TipoMovimiento>> ListAsync()
         {
-            return await _context.TipoMovimientos.ToListAsync();
+            return await _context.TipoMovimientos.Include(tp => tp.movimientos).ToListAsync();
         }
        
         public async Task AddAsync(TipoMovimiento movimiento)
@@ -27,7 +27,7 @@ namespace FinanzasGrupo2API.TipoMovimientos.Persistence.Repositories
 
         public async Task<TipoMovimiento> FindByIdAsync(int id)
         {
-            return await _context.TipoMovimientos.FirstOrDefaultAsync(p=>p.id==id);
+            return await _context.TipoMovimientos.Include(tp => tp.movimientos).FirstOrDefaultAsync(p=>p.id==id);
         }
 
         public void Update(TipoMovimiento movimiento)

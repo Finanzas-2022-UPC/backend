@@ -1,4 +1,5 @@
-﻿using FinanzasGrupo2API.Cruds.Domain.Models;
+﻿using FinanzasGrupo2API.Bonos.Domain.Models;
+using FinanzasGrupo2API.Cruds.Domain.Models;
 using FinanzasGrupo2API.DatasFrances.Domain.Models;
 
 namespace FinanzasGrupo2API.Projects.Resources
@@ -14,7 +15,8 @@ namespace FinanzasGrupo2API.Projects.Resources
              
         //Relationships
         public int usuarios_id { get; set; }
-        public Crud bono { get; set; }
+        public IList<Crud> cruds { get; set; }
+        public Bono bono { get; set; }
         public DataFrances data_frances { get; set; }
 
     }

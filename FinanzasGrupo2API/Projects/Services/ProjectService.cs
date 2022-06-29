@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using FinanzasGrupo2API.Movimientos.Domain.Models;
+using FinanzasGrupo2API.Movimientos.Domain.Repositories;
 using FinanzasGrupo2API.Projects.Domain.Models;
 using FinanzasGrupo2API.Projects.Domain.Repositories;
 using FinanzasGrupo2API.Projects.Domain.Services;
@@ -12,13 +14,15 @@ namespace FinanzasGrupo2API.Projects.Services
     public class ProyectoService : IProyectoService
     {
         private readonly IProyectoRepository _projectRepository;
+        private readonly IMovimientoRepository _movimientoRepository;
         private readonly IUsuarioRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public ProyectoService(IProyectoRepository projectRepository, IUsuarioRepository userRepository, IUnitOfWork unitOfWork, IMapper mapper)
+        public ProyectoService(IProyectoRepository projectRepository, IMovimientoRepository movimientoRepository, IUsuarioRepository userRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _projectRepository = projectRepository;
+            _movimientoRepository = movimientoRepository;
             _userRepository = userRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -30,6 +34,15 @@ namespace FinanzasGrupo2API.Projects.Services
 
             if (userId.HasValue)
                 return projects.Where(p => p.usuario.id == userId).ToArray();
+
+            foreach (var project in projects)
+            {
+                foreach (var crud in project.cruds)
+                {
+                    crud.movimientos = (IList<Movimiento>)(await _movimientoRepository.ListByCrudId(crud.id));
+                }
+            }
+
             return projects.ToArray();
         }
        
@@ -66,7 +79,8 @@ namespace FinanzasGrupo2API.Projects.Services
             var existingProject = await _projectRepository.FindByIdAsync(id);
             if (existingProject == null)
                 return new ProyectoResponse("Project Not Found");
-            existingProject = project;
+            existingProject.nombre = project.nombre;
+            existingProject.url_to_image = project.url_to_image;
 
             try
             {

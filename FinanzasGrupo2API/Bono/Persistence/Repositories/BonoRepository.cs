@@ -17,7 +17,7 @@ namespace FinanzasGrupo2API.Bonos.Persistence.Repositories
 
         public async Task<IEnumerable<Bono>> ListAsync()
         {
-            return await _context.Bonos.Include(b=>b.project).ToListAsync();
+            return await _context.Bonos.Include(b=>b.proyecto).ToListAsync();
         }
        
         public async Task AddAsync(Bono bono)
@@ -27,7 +27,7 @@ namespace FinanzasGrupo2API.Bonos.Persistence.Repositories
 
         public async Task<Bono> FindByIdAsync(int id)
         {
-            return await _context.Bonos.Include(b=>b.project).FirstOrDefaultAsync(p=>p.id==id);
+            return await _context.Bonos.Include(b=>b.proyecto).FirstOrDefaultAsync(p=>p.id==id);
         }
 
         public void Update(Bono bono)

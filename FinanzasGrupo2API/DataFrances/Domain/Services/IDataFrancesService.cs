@@ -8,7 +8,7 @@ namespace FinanzasGrupo2API.DatasFrances.Domain.Services
 {
     public interface IDataFrancesService
     {
-        Task<IEnumerable<Models.DataFrances>> ListAsync();
+        Task<IEnumerable<Models.DataFrances>> ListAsync(int? proyectos_id);
         
         Task<Models.DataFrances> GetById(int id);
 

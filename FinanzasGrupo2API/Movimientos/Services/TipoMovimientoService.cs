@@ -55,7 +55,7 @@ namespace FinanzasGrupo2API.Movimientos.Services
             var existingTipoMovimiento = await _tipoMovimientoRepository.FindByIdAsync(id);
             if (existingTipoMovimiento == null)
                 return new TipoMovimientoResponse("TipoMovimiento Not Found");
-            existingTipoMovimiento = movimiento;
+            existingTipoMovimiento.tipo = movimiento.tipo;
 
             try
             {

@@ -55,7 +55,7 @@ namespace FinanzasGrupo2API.Movimientos.Services
                 return new MovimientoResponse("Crud Not Found");
             movimiento.crud = existingCrud;
 
-            var existingTipoMovimiento = await _tipoMovimientoRepository.FindByIdAsync(movimientoResource.tipo_movimientos_id);
+            var existingTipoMovimiento = await _tipoMovimientoRepository.FindByIdAsync(movimientoResource.tipo_movimiento_id);
             if (existingTipoMovimiento == null)
                 return new MovimientoResponse("TipoMovimiento Not Found");
             movimiento.tipo_movimiento = existingTipoMovimiento;
@@ -79,7 +79,11 @@ namespace FinanzasGrupo2API.Movimientos.Services
             var existingMovimiento = await _movimientoRepository.FindByIdAsync(id);
             if (existingMovimiento == null)
                 return new MovimientoResponse("Movimiento Not Found");
-            existingMovimiento = movimiento;
+
+            existingMovimiento.nombre = movimiento.nombre;
+            existingMovimiento.monto = movimiento.monto;
+            existingMovimiento.incremento = movimiento.incremento;
+            existingMovimiento.mes_aplicable = movimiento.mes_aplicable;
 
             try
             {

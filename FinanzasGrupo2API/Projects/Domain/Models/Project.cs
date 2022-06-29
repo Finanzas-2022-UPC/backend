@@ -16,6 +16,8 @@ namespace FinanzasGrupo2API.Projects.Domain.Models
 
         //Relationships
 
+        public int usuarios_id { get; set; }
+
         [JsonIgnore]
         public Usuario usuario { get; set; }
 

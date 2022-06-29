@@ -21,9 +21,9 @@ namespace FinanzasGrupo2API.Projects.Controllers
         }
         
         [HttpGet]
-        public async Task<IEnumerable<ProyectoResource>> GetAllAsync(int ?userId)
+        public async Task<IEnumerable<ProyectoResource>> GetAllAsync(int ?user_id)
         {
-            var projects = await _projectService.ListAsync(userId);
+            var projects = await _projectService.ListAsync(user_id);
             var resources = _mapper.Map<IEnumerable<Proyecto>, IEnumerable<ProyectoResource>>(projects);
             return resources;
             

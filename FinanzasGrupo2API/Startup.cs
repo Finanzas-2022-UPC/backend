@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json;
-using System.Threading.Tasks;
-using AutoMapper;
-using FinanzasGrupo2API.Bonos.Domain.Repositories;
+﻿using FinanzasGrupo2API.Bonos.Domain.Repositories;
 using FinanzasGrupo2API.Bonos.Domain.Services;
 using FinanzasGrupo2API.Bonos.Persistence.Repositories;
 using FinanzasGrupo2API.Bonos.Services;
@@ -36,14 +30,8 @@ using FinanzasGrupo2API.Shared.Persistence.Contexts;
 using FinanzasGrupo2API.Shared.Persistence.Repositories;
 using FinanzasGrupo2API.TipoMovimientos.Persistence.Repositories;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using IUnitOfWork = FinanzasGrupo2API.Shared.Domain.Repositories.IUnitOfWork;
 
@@ -67,7 +55,7 @@ namespace FinanzasGrupo2API
 
             services.AddDbContext<AppDbContext>(options =>
             {
-                options.UseMySQL(Configuration.GetConnectionString("Default"));
+                options.UseMySQL("server=localhost; user=finanzas; database=finanzas; password=FinanzasDB; port=3306");
             });
 
             services.AddSwaggerGen(c =>
@@ -107,32 +95,44 @@ namespace FinanzasGrupo2API
             services.AddScoped<IJwtHandler, JwtHandler>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders =
+                    ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
+
             // For this course purpose we allow Swagger in release mode.
+            app.UseForwardedHeaders();
             app.UseDeveloperExceptionPage();
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FinanzasGrupo2API v1"));
-
-            app.UseMiddleware<ErrorHandlerMiddleware>();
-
-            app.UseMiddleware<JwtMiddleware>();
 
             app.UseCors(builder => builder
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());
 
+            app.UseMiddleware<ErrorHandlerMiddleware>();
+
+            app.UseMiddleware<JwtMiddleware>();
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            //app.UseAuthorization();
+            app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });         
         }
     }
 }

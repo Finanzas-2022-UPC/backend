@@ -15,7 +15,7 @@ namespace FinanzasGrupo2API.Projects.Persistence.Repositories
 
         public async Task<IEnumerable<Proyecto>> ListAsync()
         {
-            return await _context.Projects.Include(p => p.usuario).ToListAsync();
+            return await _context.Projects.Include(p => p.usuario).Include(p => p.cruds).Include(p => p.bono).Include(p => p.data_frances).ToListAsync();
         }
 
         public async Task AddAsync(Proyecto project)
@@ -25,7 +25,7 @@ namespace FinanzasGrupo2API.Projects.Persistence.Repositories
 
         public async Task<Proyecto> FindByIdAsync(int id)
         {
-            return await _context.Projects.Include(p => p.usuario).FirstOrDefaultAsync(p => p.id == id);
+            return await _context.Projects.Include(p => p.usuario).Include(p => p.cruds).Include(p => p.bono).Include(p => p.data_frances).FirstOrDefaultAsync(p => p.id == id);
         }
 
         public void Update(Proyecto project)

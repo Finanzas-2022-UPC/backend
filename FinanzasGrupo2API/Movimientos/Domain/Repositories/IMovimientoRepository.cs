@@ -12,6 +12,8 @@ namespace FinanzasGrupo2API.Movimientos.Domain.Repositories
 
         Task<Movimiento> FindByIdAsync(int id);
 
+        Task<IEnumerable<Movimiento>> ListByCrudId(int crud_id);
+
         void Update(Movimiento movimiento);
         
         void Remove(Movimiento movimiento);

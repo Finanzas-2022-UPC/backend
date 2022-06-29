@@ -11,7 +11,7 @@ namespace FinanzasGrupo2API.Movimientos.Resources
 
         //Relationships
         [Required] public int crud_id { get; set; }
-        [Required] public int tipo_movimientos_id { get; set; }
+        [Required] public int tipo_movimiento_id { get; set; }
 
     }
 }

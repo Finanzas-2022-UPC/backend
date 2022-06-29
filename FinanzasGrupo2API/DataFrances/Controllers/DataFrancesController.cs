@@ -21,9 +21,9 @@ namespace FinanzasGrupo2API.DatasFrances.Controllers
         }
         
         [HttpGet]
-        public async Task<IEnumerable<DataFrancesResource>> GetAllAsync()
+        public async Task<IEnumerable<DataFrancesResource>> GetAllAsync(int ?proyectos_id)
         {
-            var dataFrancess = await _dataFrancesService.ListAsync();
+            var dataFrancess = await _dataFrancesService.ListAsync(proyectos_id);
             var resources = _mapper.Map<IEnumerable<DataFrances>, IEnumerable<DataFrancesResource>>(dataFrancess);
             return resources;
         }

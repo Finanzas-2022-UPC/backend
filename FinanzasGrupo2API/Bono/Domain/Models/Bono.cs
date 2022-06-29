@@ -18,14 +18,19 @@ namespace FinanzasGrupo2API.Bonos.Domain.Models
         public float estructuracion { get; set; }
         public float colocacion { get; set; }
         public float flotacion { get; set; }
+
+        public float cavali { get; set; }
         public float gastos_adicionales { get; set; }
+        public float inflacion { get; set; }
         public float impuesto_renta { get; set; }
         public string moneda { get; set; }
 
         //Relationships
 
         [JsonIgnore]
-        public Proyecto project { get; set; }
-             
-         }
+        public Proyecto proyecto { get; set; }
+
+        public int proyectos_id { get; set; }
+
+    }
 }

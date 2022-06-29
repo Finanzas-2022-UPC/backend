@@ -17,7 +17,7 @@ namespace FinanzasGrupo2API.Movimientos.Persistence.Repositories
 
         public async Task<IEnumerable<Movimiento>> ListAsync()
         {
-            return await _context.Movimientos.Include(b=>b.crud).ToListAsync();
+            return await _context.Movimientos.Include(b => b.crud).Include(b=>b.tipo_movimiento).ToListAsync();
         }
        
         public async Task AddAsync(Movimiento movimiento)
@@ -27,7 +27,12 @@ namespace FinanzasGrupo2API.Movimientos.Persistence.Repositories
 
         public async Task<Movimiento> FindByIdAsync(int id)
         {
-            return await _context.Movimientos.Include(b=>b.crud).FirstOrDefaultAsync(p=>p.id==id);
+            return await _context.Movimientos.Include(b => b.crud).Include(b=>b.tipo_movimiento).FirstOrDefaultAsync(p=>p.id==id);
+        }
+
+        public async Task<IEnumerable<Movimiento>> ListByCrudId(int crud_id)
+        {
+            return await _context.Movimientos.Include(b => b.tipo_movimiento).Where(m => m.crud_id == crud_id).ToListAsync();
         }
 
         public void Update(Movimiento movimiento)

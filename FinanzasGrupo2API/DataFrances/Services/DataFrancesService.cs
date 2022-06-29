@@ -25,9 +25,14 @@ namespace FinanzasGrupo2API.DatasFrances.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<DataFrances>> ListAsync()
+        public async Task<IEnumerable<DataFrances>> ListAsync(int ?proyectos_id)
         {
-            return await _dataFrancesRepository.ListAsync();
+            var dataFrances = await _dataFrancesRepository.ListAsync();
+
+            if (proyectos_id.HasValue)
+                return dataFrances.Where(dF => dF.proyectos_id == proyectos_id).ToArray();
+
+            return dataFrances.ToArray();
         }
 
         public async Task<DataFrances> GetById(int id)
@@ -42,7 +47,7 @@ namespace FinanzasGrupo2API.DatasFrances.Services
             var existingProject = await _projectRepository.FindByIdAsync(dataFrancesResource.project_id);
             if (existingProject == null)
                 return new DataFrancesResponse("Project Not Found");
-            dataFrances.project = existingProject;
+            dataFrances.proyecto = existingProject;
 
             try
             {
@@ -63,7 +68,21 @@ namespace FinanzasGrupo2API.DatasFrances.Services
             var existingDataFrances = await _dataFrancesRepository.FindByIdAsync(id);
             if (existingDataFrances == null)
                 return new DataFrancesResponse("DataFrances Not Found");
-            existingDataFrances = dataFrances;
+
+            existingDataFrances.valor_terreno = dataFrances.valor_terreno;
+            existingDataFrances.cuota_inicial_p = dataFrances.cuota_inicial_p;
+            existingDataFrances.cuota_inicial = dataFrances.cuota_inicial;
+            existingDataFrances.tea = dataFrances.tea;
+            existingDataFrances.frecuencia_pago = dataFrances.frecuencia_pago;
+            existingDataFrances.metodo = dataFrances.metodo;
+            existingDataFrances.plazo_anhos = dataFrances.plazo_anhos;
+            existingDataFrances.plazo_semestre = dataFrances.plazo_semestre;
+            existingDataFrances.plazo_gracia = dataFrances.plazo_gracia;
+            existingDataFrances.capital = dataFrances.capital;
+            existingDataFrances.te_semestral = dataFrances.te_semestral;
+            existingDataFrances.credito_capitalizado = dataFrances.credito_capitalizado;
+            existingDataFrances.nuevo_tiempo = dataFrances.nuevo_tiempo;
+            existingDataFrances.nueva_cuota = dataFrances.nueva_cuota;
 
             try
             {

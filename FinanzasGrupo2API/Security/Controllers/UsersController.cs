@@ -40,13 +40,26 @@ namespace FinanzasGrupo2API.Security.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<UsuarioResource>> GetAllAsync()
+        public async Task<IActionResult> GetAllAsync([FromQuery] string? email)
         {
+            if (email != null && !email.Equals(""))
+            {
+                var user = await _userService.GetByUserEmailAsync(email.ToLower());
+                var userResource = _mapper.Map<Domain.Models.Usuario, UsuarioResource>(user);
+                var userResponse = new List<UsuarioResource>();
+
+                if (userResource == null)
+                    return NotFound("Usuario no encontrado.");
+
+                userResponse.Add(userResource);
+                return Ok(userResponse);
+            }
+
             var users = await _userService.ListAsync();
             var resources = _mapper.Map<IEnumerable<Domain.Models.Usuario>, IEnumerable<UsuarioResource>>(users);
-            return resources;
+            return Ok(resources);
         }
-        
+
         /*
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody] SaveUserResource resource)
@@ -64,7 +77,7 @@ namespace FinanzasGrupo2API.Security.Controllers
             return Ok(productResource);
         }
         */
-        
+
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAsync(int id, [FromBody] SaveUsuarioResource resource)
         {

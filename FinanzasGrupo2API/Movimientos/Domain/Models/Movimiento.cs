@@ -14,6 +14,11 @@ namespace FinanzasGrupo2API.Movimientos.Domain.Models
         public string mes_aplicable { get; set; }
 
         //Relationships
+
+        public int tipo_movimientos_id { get; set; }
+
+        public int crud_id { get; set; }
+
         [JsonIgnore]
         public TipoMovimiento tipo_movimiento { get; set; }
         [JsonIgnore]

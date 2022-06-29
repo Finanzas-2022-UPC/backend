@@ -10,10 +10,9 @@ namespace FinanzasGrupo2API.Movimientos.Resources
         public string monto { get; set; }
         public float incremento { get; set; }
         public string mes_aplicable { get; set; }
-        public int tipo_movimientos_id { get; set; }
 
         //Relationships
-             
+        public int tipo_movimientos_id { get; set; }
         public int crud_id { get; set; }
     }
 }

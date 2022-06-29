@@ -11,10 +11,11 @@ namespace FinanzasGrupo2API.Cruds.Domain.Models
         public string tipo { get; set; }
         public string nombre { get; set; }
 
-        //Relationships
-
         [JsonIgnore]
-        public Proyecto project { get; set; }
+        public Proyecto proyecto { get; set; }
+
+        public int proyectos_id { get; set; }
+
         public IList<Movimiento> movimientos { get; set; }
              
          }

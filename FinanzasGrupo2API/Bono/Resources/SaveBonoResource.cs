@@ -15,7 +15,9 @@ namespace FinanzasGrupo2API.Bonos.Resources
         [Required] public float estructuracion { get; set; }
         [Required] public float colocacion { get; set; }
         [Required] public float flotacion { get; set; }
+        public float cavali { get; set; }
         [Required] public float gastos_adicionales { get; set; }
+        public float inflacion { get; set; }
         [Required] public float impuesto_renta { get; set; }
         [Required][MaxLength(50)] public string moneda { get; set; }
 

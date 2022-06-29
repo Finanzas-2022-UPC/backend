@@ -1,4 +1,5 @@
-﻿using FinanzasGrupo2API.Projects.Domain.Models;
+﻿using FinanzasGrupo2API.Movimientos.Domain.Models;
+using FinanzasGrupo2API.Projects.Domain.Models;
 
 namespace FinanzasGrupo2API.Cruds.Resources
 {
@@ -10,7 +11,8 @@ namespace FinanzasGrupo2API.Cruds.Resources
         public string nombre { get; set; }
 
         //Relationships
+        public int proyectos_id { get; set; }
 
-        public Proyecto project { get; set; }
+        public IList<Movimiento> movimientos { get; set; }
     }
 }

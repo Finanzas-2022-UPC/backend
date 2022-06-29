@@ -42,7 +42,7 @@ namespace FinanzasGrupo2API.Bonos.Services
             var existingProject = await _projectRepository.FindByIdAsync(bonoResource.proyectos_id);
             if (existingProject == null)
                 return new BonoResponse("Project Not Found");
-            bono.project = existingProject;
+            bono.proyecto = existingProject;
 
             try
             {
@@ -63,7 +63,24 @@ namespace FinanzasGrupo2API.Bonos.Services
             var existingBono = await _bonoRepository.FindByIdAsync(id);
             if (existingBono == null)
                 return new BonoResponse("Bono Not Found");
-            existingBono = bono;
+
+            existingBono.valor_nominal = bono.valor_nominal;
+            existingBono.valor_comercial = bono.valor_comercial;
+            existingBono.tasa_cupon = bono.tasa_cupon;
+            existingBono.frecuencia_pago = bono.frecuencia_pago;
+            existingBono.metodo_pago = bono.metodo_pago;
+            existingBono.periodos = bono.periodos;
+            existingBono.tea = bono.tea;
+            existingBono.prima = bono.prima;
+            existingBono.estructuracion = bono.estructuracion;
+            existingBono.colocacion = bono.colocacion;
+            existingBono.flotacion = bono.flotacion;
+            existingBono.cavali = bono.cavali;
+            existingBono.gastos_adicionales = bono.gastos_adicionales;
+            existingBono.inflacion = bono.inflacion;
+            existingBono.impuesto_renta = bono.impuesto_renta;
+            existingBono.moneda = bono.moneda;
+
 
             try
             {

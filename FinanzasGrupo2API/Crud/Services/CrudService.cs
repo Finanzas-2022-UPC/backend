@@ -32,9 +32,9 @@ namespace FinanzasGrupo2API.Cruds.Services
             if (!(type == null || type.Equals("")) && !projectId.HasValue)
                 return cruds.Where(m => m.tipo == type).ToArray();
             else if ((type == null || type.Equals("")) && projectId.HasValue)
-                return cruds.Where(m => m.project.id == projectId.Value).ToArray();
+                return cruds.Where(m => m.proyecto.id == projectId.Value).ToArray();
             else if (!(type == null || type.Equals("")) && projectId.HasValue)
-                return cruds.Where(m => m.project.id == projectId.Value && m.tipo == type).ToArray();
+                return cruds.Where(m => m.proyecto.id == projectId.Value && m.tipo == type).ToArray();
 
             return cruds.ToArray();
         }
@@ -51,7 +51,7 @@ namespace FinanzasGrupo2API.Cruds.Services
             var existingProject = await _projectRepository.FindByIdAsync(crudResource.project_id);
             if (existingProject == null)
                 return new CrudResponse("Project Not Found");
-            crud.project = existingProject;
+            crud.proyecto = existingProject;
 
             try
             {
@@ -72,7 +72,8 @@ namespace FinanzasGrupo2API.Cruds.Services
             var existingCrud = await _crudRepository.FindByIdAsync(id);
             if (existingCrud == null)
                 return new CrudResponse("Crud Not Found");
-            existingCrud = crud;
+            existingCrud.tipo = crud.tipo;
+            existingCrud.nombre = crud.nombre;
 
             try
             {
